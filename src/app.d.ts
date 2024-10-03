@@ -8,14 +8,16 @@ declare global {
 				name: string;
 				email: string;
 				image: string;
-			};
+				isAdmin: boolean;
+			} | null;
 		}
 		interface PageData {
 			user: {
 				name: string;
 				email: string;
 				image: string;
-			};
+				isAdmin: boolean;
+			} | null;
 		}
 		// interface PageState {}
 		// interface Platform {}

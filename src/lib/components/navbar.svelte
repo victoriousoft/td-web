@@ -8,10 +8,13 @@
 	<div class="flex items-center">
 		<a href="/">Home</a>
 		<a href="/about">About</a>
+		{#if $page.data.user.isAdmin}
+			<a href="/admin">Admin</a>
+		{/if}
 	</div>
 	<div class="flex items-center">
 		{#if $page.data.user}
-			<p>{$page.data.user.name}</p>
+			<p>{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
 			<Button variant="destructive" on:click={() => signOut()}>Logout</Button>
 		{:else}
 			<Button variant="secondary" on:click={() => signIn("google")}>Login</Button>
