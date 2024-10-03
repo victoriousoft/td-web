@@ -1,79 +1,64 @@
+import { fontFamily } from "tailwindcss/defaultTheme";
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
+	darkMode: ["class"],
 	content: ["./src/**/*.{html,js,svelte,ts}"],
-
+	safelist: ["dark"],
 	theme: {
+		container: {
+			center: true,
+			padding: "2rem",
+			screens: {
+				"2xl": "1400px"
+			}
+		},
 		extend: {
 			colors: {
-				text: {
-					50: "#031706",
-					100: "#062d0c",
-					200: "#0b5b17",
-					300: "#118823",
-					400: "#16b62e",
-					500: "#1ce33a",
-					600: "#49e961",
-					700: "#77ee89",
-					800: "#a4f4b0",
-					900: "#d2f9d8",
-					950: "#e8fceb"
-				},
-				background: {
-					50: "#021707",
-					100: "#052e0e",
-					200: "#095d1b",
-					300: "#0e8b29",
-					400: "#12ba37",
-					500: "#17e844",
-					600: "#45ed6a",
-					700: "#74f18f",
-					800: "#a2f6b4",
-					900: "#d1fada",
-					950: "#e8fdec"
-				},
+				border: "hsl(var(--border) / <alpha-value>)",
+				input: "hsl(var(--input) / <alpha-value>)",
+				ring: "hsl(var(--ring) / <alpha-value>)",
+				background: "hsl(var(--background) / <alpha-value>)",
+				foreground: "hsl(var(--foreground) / <alpha-value>)",
 				primary: {
-					50: "#031706",
-					100: "#062d0c",
-					200: "#0b5b18",
-					300: "#118825",
-					400: "#16b631",
-					500: "#1ce33d",
-					600: "#49e964",
-					700: "#77ee8b",
-					800: "#a4f4b1",
-					900: "#d2f9d8",
-					950: "#e8fcec"
+					DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+					foreground: "hsl(var(--primary-foreground) / <alpha-value>)"
 				},
 				secondary: {
-					50: "#031712",
-					100: "#052e24",
-					200: "#0b5b47",
-					300: "#10896b",
-					400: "#15b78e",
-					500: "#1be4b2",
-					600: "#48eac1",
-					700: "#76efd1",
-					800: "#a4f4e0",
-					900: "#d1faf0",
-					950: "#e8fcf7"
+					DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+					foreground: "hsl(var(--secondary-foreground) / <alpha-value>)"
+				},
+				destructive: {
+					DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+					foreground: "hsl(var(--destructive-foreground) / <alpha-value>)"
+				},
+				muted: {
+					DEFAULT: "hsl(var(--muted) / <alpha-value>)",
+					foreground: "hsl(var(--muted-foreground) / <alpha-value>)"
 				},
 				accent: {
-					50: "#031715",
-					100: "#062d2b",
-					200: "#0b5b55",
-					300: "#118880",
-					400: "#16b6ab",
-					500: "#1ce3d6",
-					600: "#49e9de",
-					700: "#77eee6",
-					800: "#a4f4ee",
-					900: "#d2f9f7",
-					950: "#e8fcfb"
+					DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+					foreground: "hsl(var(--accent-foreground) / <alpha-value>)"
+				},
+				popover: {
+					DEFAULT: "hsl(var(--popover) / <alpha-value>)",
+					foreground: "hsl(var(--popover-foreground) / <alpha-value>)"
+				},
+				card: {
+					DEFAULT: "hsl(var(--card) / <alpha-value>)",
+					foreground: "hsl(var(--card-foreground) / <alpha-value>)"
 				}
+			},
+			borderRadius: {
+				lg: "var(--radius)",
+				md: "calc(var(--radius) - 2px)",
+				sm: "calc(var(--radius) - 4px)"
+			},
+			fontFamily: {
+				sans: [...fontFamily.sans]
 			}
 		}
-	},
+	}
+};
 
-	plugins: []
-} as Config;
+export default config;

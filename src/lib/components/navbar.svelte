@@ -3,15 +3,18 @@
 	import { page } from "$app/stores";
 </script>
 
-{#if $page.data.user}
-	<nav>
+<nav class="flex w-full justify-between">
+	<div class="flex">
 		<a href="/">Home</a>
-		<p>{$page.data.user.name}</p>
-		<button on:click={() => signOut()}>Logout</button>
-	</nav>
-{:else}
-	<nav>
-		<a href="/">Home</a>
-		<button on:click={() => signIn("google")}>Login</button>
-	</nav>
-{/if}
+		<a href="/about">About</a>
+	</div>
+	<div class="flex">
+		{#if $page.data.user}
+			<p>{$page.data.user.name}</p>
+			<button on:click={() => signOut()}>Logout</button>
+		{:else}
+			<button on:click={() => signIn("google")}>Login</button>
+		{/if}
+		<button>Play!</button>
+	</div>
+</nav>
