@@ -8,7 +8,7 @@
 	<div class="flex items-center">
 		<a href="/">Home</a>
 		<a href="/about">About</a>
-		{#if $page.data.user.isAdmin}
+		{#if $page.data.user?.isAdmin}
 			<a href="/admin">Admin</a>
 		{/if}
 	</div>

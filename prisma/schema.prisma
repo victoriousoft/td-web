@@ -8,9 +8,10 @@ datasource db {
 }
 
 model Post {
-    id      Int    @id @default(autoincrement())
-    title   String
-    content String
+    id        Int      @id @default(autoincrement())
+    title     String   @db.TinyText
+    content   String   @db.Text
+    createdAt DateTime @default(now())
 }
 
 model Admin {
