@@ -1,14 +1,12 @@
 services:
-  db:
-    image: mysql:latest
-    restart: always
-    ports:
-      - "3306:3306"
-    expose:
-      - "330"
-    volumes:
-      - td-db:/var/lib/mysql
-    env_file:
-      - .env
+    db:
+        image: mysql:8
+        restart: always
+        ports:
+            - "3306:3306"
+        volumes:
+            - db:/var/lib/mysql
+        env_file:
+            - .env
 volumes:
-  td-db:
+    db:

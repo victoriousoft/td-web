@@ -1,0 +1,25 @@
+services:
+    db:
+        image: mysql:8
+        restart: always
+        ports:
+            - "3306:3306"
+        volumes:
+            - td-db:/var/lib/mysql
+        env_file:
+            - .env
+        expose:
+            - "3306"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        ports:
+            - "8080:80"
+        env_file:
+            - .env
+        depends_on:
+            - db
+
+volumes:
+    td-db:
