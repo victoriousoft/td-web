@@ -13,6 +13,19 @@
 			}
 		});
 	}
+
+	function toggleFullscreen() {
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+		} else {
+			iframe.requestFullscreen();
+		}
+	}
 </script>
 
-<iframe bind:this={iframe} on:load={onIframeLoad} title="Game window" src="https://td.kristn.co.uk/" class="h-lvh w-full" />
+<div>
+	<iframe bind:this={iframe} on:load={onIframeLoad} title="Game window" src="https://td.kristn.co.uk/" class="h-lvh w-full" />
+	<button class="fixed bottom-4 right-4 z-10" on:click={toggleFullscreen}>
+		<img src="icons/fullscreen.webp" alt="Fullscreen" class="h-8 w-8" />
+	</button>
+</div>
