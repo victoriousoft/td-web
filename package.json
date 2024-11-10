@@ -15,7 +15,6 @@
 		"seed": "npx tsx prisma/seed.ts"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.2.5",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/node": "^22.7.4",
