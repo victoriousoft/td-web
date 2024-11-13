@@ -17,3 +17,11 @@ model Post {
 model Admin {
     email String @id
 }
+
+model Save {
+    id        Int      @id @default(autoincrement())
+    title     String   @db.TinyText
+    content   Json
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
