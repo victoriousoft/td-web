@@ -5,7 +5,7 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - td-db:/var/lib/mysql
+            - db:/var/lib/mysql
         env_file:
             - .env
         expose:
@@ -22,4 +22,4 @@ services:
             - db
 
 volumes:
-    td-db:
+    db:
