@@ -7,6 +7,10 @@
 	import { Input } from "$lib/components/ui/input";
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
 	import Button from "$lib/components/ui/button/button.svelte";
+	import * as Accordion from "$lib/components/ui/accordion";
+	import * as Dialog from "$lib/components/ui/dialog";
+	import { writable } from "svelte/store";
+	import AccordionContent from "$lib/components/ui/accordion/accordion-content.svelte";
 
 	export let data;
 
@@ -14,18 +18,18 @@
 		validators: zodClient(saveSchema)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData, enhance, errors } = form;
+	const dialogOpen = writable(false);
 
 	function pushToForm(save: any) {
-		console.log(save);
 		$formData.id = save.id;
 		$formData.title = save.title;
 		$formData.content = inputPrettyPrint(save.content);
+		dialogOpen.set(true);
 	}
 
 	function htmlPrettyPrint(json: string) {
-		const prettyJson = JSON.stringify(json, null, 4);
-		return prettyJson.replace(/\n/g, "<br>").replace(/ /g, "&nbsp;");
+		return inputPrettyPrint(json).replace(/\n/g, "<br>").replace(/ /g, "&nbsp;");
 	}
 
 	function inputPrettyPrint(json: string) {
@@ -42,36 +46,55 @@
 {#each data.saves as save}
 	<div>
 		<h2>{save.title}</h2>
-		<div>
-			Content:
-			<p>{@html htmlPrettyPrint(save.content)}</p>
-		</div>
+		<Accordion.Root>
+			<Accordion.Item value="Content">
+				<Accordion.Trigger>Content</Accordion.Trigger>
+				<Accordion.Content>
+					{@html htmlPrettyPrint(save.content)}
+				</Accordion.Content>
+			</Accordion.Item>
+		</Accordion.Root>
 		<p>Last updated: {save.updatedAt.toLocaleString()}</p>
 		<p>Created: {save.createdAt.toLocaleString()}</p>
-		<Button on:click={() => pushToForm(save)}>Push to form</Button>
+		<Button on:click={() => pushToForm(save)}>Edit</Button>
 	</div>
 {/each}
 
-<form method="POST" use:enhance action="?/updateSave">
-	<Form.Field {form} name="id">
-		<Form.Control let:attrs>
-			<Input type="hidden" {...attrs} bind:value={$formData.id} />
-		</Form.Control>
-	</Form.Field>
+<Dialog.Root bind:open={$dialogOpen}>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>Edit Save</Dialog.Title>
+			<Dialog.Description>Edit the details of your save.</Dialog.Description>
+		</Dialog.Header>
+		<form
+			method="POST"
+			use:enhance
+			action="?/updateSave"
+			on:submit={() => {
+				dialogOpen.set(false);
+			}}
+		>
+			<Form.Field {form} name="id">
+				<Form.Control let:attrs>
+					<Input type="hidden" {...attrs} bind:value={$formData.id} />
+				</Form.Control>
+			</Form.Field>
 
-	<Form.Field {form} name="title">
-		<Form.Control let:attrs>
-			<Form.Label>Title</Form.Label>
-			<Input {...attrs} bind:value={$formData.title} />
-		</Form.Control>
-		<Form.FieldErrors />
-	</Form.Field>
-	<Form.Field {form} name="content">
-		<Form.Control let:attrs>
-			<Form.Label>Content</Form.Label>
-			<Textarea {...attrs} bind:value={$formData.content} />
-		</Form.Control>
-		<Form.FieldErrors />
-	</Form.Field>
-	<Form.Button>Submit</Form.Button>
-</form>
+			<Form.Field {form} name="title">
+				<Form.Control let:attrs>
+					<Form.Label>Title</Form.Label>
+					<Input {...attrs} bind:value={$formData.title} />
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+			<Form.Field {form} name="content">
+				<Form.Control let:attrs>
+					<Form.Label>Content</Form.Label>
+					<Textarea {...attrs} bind:value={$formData.content} />
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+			<Form.Button>Update</Form.Button>
+		</form>
+	</Dialog.Content>
+</Dialog.Root>

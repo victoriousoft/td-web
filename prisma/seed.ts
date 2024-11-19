@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -14,7 +14,7 @@ async function main() {
 		data: {
 			title: "Test save",
 			userEmail: process.env.ADMIN_EMAIL as string,
-			content: JSON.stringify({ foo: "bar" })
+			content: { foo: "bar" } as Prisma.JsonObject
 		}
 	});
 }

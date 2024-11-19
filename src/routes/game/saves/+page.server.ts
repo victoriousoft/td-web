@@ -4,6 +4,7 @@ import type { PageServerLoad } from "../../admin/post/$types";
 import { zod } from "sveltekit-superforms/adapters";
 import { saveSchema } from "./schema";
 import { fail, type Actions } from "@sveltejs/kit";
+import { updated } from "$app/stores";
 
 export const load: PageServerLoad = async ({ locals }) => {
 	let saves = [];
@@ -12,6 +13,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 		saves = await prisma.save.findMany({
 			where: {
 				userEmail: locals.user.email
+			},
+			select: {
+				id: true,
+				title: true,
+				content: true,
+				createdAt: true,
+				updatedAt: true
 			},
 			orderBy: {
 				createdAt: "desc"
