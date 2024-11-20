@@ -1,2 +1,2 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1 class="m-5 text-center text-4xl font-bold">Tower Defense</h1>
+<p class="text-center text-gray-500">Coming soon...</p>
