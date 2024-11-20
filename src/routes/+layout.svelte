@@ -13,4 +13,6 @@
 </script>
 
 <Navbar />
-<slot></slot>
+<main>
+	<slot></slot>
+</main>

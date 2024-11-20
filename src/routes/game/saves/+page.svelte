@@ -10,7 +10,8 @@
 	import * as Accordion from "$lib/components/ui/accordion";
 	import * as Dialog from "$lib/components/ui/dialog";
 	import { writable } from "svelte/store";
-	import AccordionContent from "$lib/components/ui/accordion/accordion-content.svelte";
+	import * as Card from "$lib/components/ui/card";
+	import Codeblock from "$lib/components/codeblock.svelte";
 
 	export let data;
 
@@ -37,28 +38,39 @@
 	}
 </script>
 
-<h1>Game saves</h1>
+<h1 class="m-5 text-center text-4xl font-bold">Active game saves</h1>
 
 {#if data.saves.length === 0}
-	<p>No saves found.</p>
+	<div class="flex h-96 items-center justify-center">
+		<p class="text-center">No saves found.</p>
+	</div>
 {/if}
 
-{#each data.saves as save}
-	<div>
-		<h2>{save.title}</h2>
-		<Accordion.Root>
-			<Accordion.Item value="Content">
-				<Accordion.Trigger>Content</Accordion.Trigger>
-				<Accordion.Content>
-					{@html htmlPrettyPrint(save.content)}
-				</Accordion.Content>
-			</Accordion.Item>
-		</Accordion.Root>
-		<p>Last updated: {save.updatedAt.toLocaleString()}</p>
-		<p>Created: {save.createdAt.toLocaleString()}</p>
-		<Button on:click={() => pushToForm(save)}>Edit</Button>
-	</div>
-{/each}
+<div class="grid grid-cols-1 gap-4 px-5 md:grid-cols-2 lg:grid-cols-3">
+	{#each data.saves as save, index}
+		<Card.Root>
+			<Card.Header>
+				<Card.Title>{save.title}</Card.Title>
+			</Card.Header>
+			<Card.Content>
+				<Accordion.Root>
+					<Accordion.Item value="Content-{index}">
+						<Accordion.Trigger>Content</Accordion.Trigger>
+						<Accordion.Content>
+							<Codeblock language="json" code={inputPrettyPrint(save.content)} />
+						</Accordion.Content>
+					</Accordion.Item>
+				</Accordion.Root>
+				<Button class="my-3" on:click={() => pushToForm(save)}>Edit</Button>
+			</Card.Content>
+			<Card.Footer>
+				<p class="text-sm text-gray-500">
+					Created: {save.createdAt.toLocaleString()} <br /> Updated: {save.updatedAt.toLocaleString()}
+				</p>
+			</Card.Footer>
+		</Card.Root>
+	{/each}
+</div>
 
 <Dialog.Root bind:open={$dialogOpen}>
 	<Dialog.Content>
