@@ -38,7 +38,7 @@
 	}
 </script>
 
-<h1 class="m-5 text-center text-4xl font-bold">Active game saves</h1>
+<h1 class="m-5 text-center text-4xl font-bold">Game save slots</h1>
 
 {#if data.saves.length === 0}
 	<div class="flex h-96 items-center justify-center">
