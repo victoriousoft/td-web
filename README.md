@@ -1,38 +1,41 @@
-# create-svelte
+# Tower Defense web 
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Ročníková práce 3.E š. r. 2024/2025
 
-## Creating a project
+Repozitář obsahuje webovou stránku, která slouží jako přístupový bod ke hře.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Předpoklady
 
+- [Node.js](https://nodejs.org/en/)
+- [Google OAuth](https://developers.google.com/identity/protocols/oauth2) konfigurace
+- [MySQL](https://www.mysql.com/) databáze.
+
+
+## Konfigurace
+Projekt obsahuje `.env.example`, který slouží jako šablona pro konfiguraci. Pro správnou funkčnost je nutné vytvořit soubor `.env` a vyplnit všechny proměnné.
+
+## Instalace
+
+Nainstálování NPM balíčků:
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+$ npm i
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
+Aplikování databázového schématu:
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+$ npx prisma db push
 ```
 
-## Building
+## Spuštění
 
-To create a production version of your app:
-
+Spuštění development serveru:
 ```bash
-npm run build
+$ npm run dev
 ```
 
-You can preview the production build with `npm run preview`.
+## Build
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Vytvoření a spuštění produkčního buildu:
+```bash
+$ npm run build && node build/
+```
