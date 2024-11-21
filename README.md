@@ -1,5 +1,7 @@
 # Tower Defense web 
 
+[![Docker Build and Publish](https://github.com/victoriousoft/td-web/actions/workflows/docker-build-publish.yml/badge.svg)](https://github.com/victoriousoft/td-web/actions/workflows/docker-build-publish.yml)
+
 Ročníková práce 3.E š. r. 2024/2025
 
 Repozitář obsahuje webovou stránku, která slouží jako přístupový bod ke hře.
