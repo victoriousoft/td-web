@@ -8,9 +8,9 @@
 <p class="text-center text-gray-500">Coming soon...</p>
 
 <h2 class="m-5 mt-10 text-center text-2xl font-bold">Latest updates</h2>
-<div class="flex w-full justify-center">
+<div class="flex flex-wrap justify-center">
 	{#each data.latestPosts as posts}
-		<div class="flex w-1/2 flex-col p-5">
+		<div class="w-full p-5 sm:w-1/2">
 			<Card.Root>
 				<Card.Header>
 					<Card.Title>{posts.title}</Card.Title>

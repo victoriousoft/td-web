@@ -3,23 +3,46 @@
 	import { page } from "$app/stores";
 	import Button from "./ui/button/button.svelte";
 	import Link from "./link.svelte";
+	import * as Sheet from "$lib/components/ui/sheet";
 </script>
 
 <nav class="flex w-full items-center justify-between border-b p-5">
-	<div class="flex items-center [&>*]:mx-2">
+	<div class="hidden items-center gap-4 md:flex">
 		<Link href="/">Home</Link>
 		<Link href="/game/saves">Save slots</Link>
 		{#if $page.data.user?.isAdmin}
 			<Link href="/admin">Admin</Link>
 		{/if}
 	</div>
-	<div class="flex items-center [&>*]:mx-2">
+
+	<Sheet.Root>
+		<Sheet.Trigger class="text-3xl md:hidden">☰</Sheet.Trigger>
+		<Sheet.Content side={"left"}>
+			<Sheet.Header>
+				<Sheet.Title>Tower Defense</Sheet.Title>
+			</Sheet.Header>
+			<div class="mt-3 flex flex-col items-start gap-2">
+				<Link href="/">Home</Link>
+				<Link href="/game/saves">Save slots</Link>
+				{#if $page.data.user?.isAdmin}
+					<Link href="/admin">Admin</Link>
+				{/if}
+			</div>
+			<Sheet.Footer>
+				<Sheet.Close>
+					<Button type="submit" variant="destructive">Close</Button>
+				</Sheet.Close>
+			</Sheet.Footer>
+		</Sheet.Content>
+	</Sheet.Root>
+
+	<div class="flex items-center gap-4">
 		{#if $page.data.user}
 			<p>{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
 			<Button variant="destructive" on:click={() => signOut()}>Logout</Button>
 		{:else}
 			<Button variant="secondary" on:click={() => signIn("google")}>Login</Button>
 		{/if}
-		<Button href="/game">Play!</Button>
+		<Button class="hidden md:block" href="/game">Play!</Button>
 	</div>
 </nav>
