@@ -43,6 +43,6 @@
 		{:else}
 			<Button variant="secondary" on:click={() => signIn("google")}>Login</Button>
 		{/if}
-		<Button class="hidden md:block" href="/game">Play!</Button>
+		<Button href="/game">Play!</Button>
 	</div>
 </nav>
