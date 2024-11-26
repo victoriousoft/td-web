@@ -19,9 +19,9 @@
 		<Sheet.Trigger class="text-3xl md:hidden">☰</Sheet.Trigger>
 		<Sheet.Content side={"left"}>
 			<Sheet.Header>
-				<Sheet.Title>Tower Defense</Sheet.Title>
+				<Sheet.Title class="text-center">Tower Defense</Sheet.Title>
 				{#if $page.data.user}
-					<p class="text-sm">{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
+					<p class="text-center text-sm">{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
 				{/if}
 			</Sheet.Header>
 			<Sheet.Close>
