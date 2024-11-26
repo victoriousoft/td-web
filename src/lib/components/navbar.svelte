@@ -20,25 +20,25 @@
 		<Sheet.Content side={"left"}>
 			<Sheet.Header>
 				<Sheet.Title>Tower Defense</Sheet.Title>
-			</Sheet.Header>
-			<div class="mt-3 flex flex-col items-start gap-2">
-				<Link href="/">Home</Link>
-				<Link href="/game/saves">Save slots</Link>
-				{#if $page.data.user?.isAdmin}
-					<Link href="/admin">Admin</Link>
+				{#if $page.data.user}
+					<p class="text-sm">{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
 				{/if}
-			</div>
-			<Sheet.Footer>
-				<Sheet.Close>
-					<Button type="submit" variant="destructive">Close</Button>
-				</Sheet.Close>
-			</Sheet.Footer>
+			</Sheet.Header>
+			<Sheet.Close>
+				<div class="mt-3 flex flex-col items-start gap-2">
+					<Link href="/">Home</Link>
+					<Link href="/game/saves">Save slots</Link>
+					{#if $page.data.user?.isAdmin}
+						<Link href="/admin">Admin</Link>
+					{/if}
+				</div>
+			</Sheet.Close>
 		</Sheet.Content>
 	</Sheet.Root>
 
 	<div class="flex items-center gap-4">
 		{#if $page.data.user}
-			<p>{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
+			<p class="hidden md:block">{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
 			<Button variant="destructive" on:click={() => signOut()}>Logout</Button>
 		{:else}
 			<Button variant="secondary" on:click={() => signIn("google")}>Login</Button>
