@@ -40,9 +40,10 @@
 		{#if $page.data.user}
 			<p class="hidden md:block">{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
 			<Button variant="destructive" on:click={() => signOut()}>Logout</Button>
+			<Button href="/game">Play!</Button>
 		{:else}
 			<Button variant="secondary" on:click={() => signIn("google")}>Login</Button>
+			<Button on:click={() => alert("not yet...")}>Play!</Button>
 		{/if}
-		<Button href="/game">Play!</Button>
 	</div>
 </nav>
