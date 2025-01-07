@@ -61,7 +61,11 @@
 						</Accordion.Content>
 					</Accordion.Item>
 				</Accordion.Root>
-				<Button class="my-3" on:click={() => pushToForm(save)}>Edit</Button>
+				<div class="flex justify-between">
+					<Button class="my-3" on:click={() => pushToForm(save)}>Edit</Button>
+
+					<Button type="submit" variant="destructive" class="my-3" on:click={() => alert("impossible")}>Delete</Button>
+				</div>
 			</Card.Content>
 			<Card.Footer>
 				<p class="text-sm text-gray-500">

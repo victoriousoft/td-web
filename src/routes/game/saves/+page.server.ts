@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 				updatedAt: true
 			},
 			orderBy: {
-				createdAt: "desc"
+				updatedAt: "desc"
 			}
 		});
 	}
