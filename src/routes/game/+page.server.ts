@@ -24,6 +24,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 	return {
 		saves,
-		savesContentMap: new Map(saves.map((save: any) => [save.id, save.content]))
+		savesContentMap: new Map(saves.map((save) => [save.id, save.content]))
 	};
 };

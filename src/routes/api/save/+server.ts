@@ -1,5 +1,4 @@
-import { error, json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types";
+import { error, json, type RequestHandler } from "@sveltejs/kit";
 import { prisma } from "$lib/prisma";
 import { SaveGenerator } from "$lib/save-gen";
 
@@ -22,7 +21,7 @@ export const POST: RequestHandler = async ({ locals }) => {
 		data: {
 			title: `New save ${saveCount + 1}`,
 			userEmail: locals.user.email,
-			content: SaveGenerator.generateEmptySave()
+			content: JSON.stringify(SaveGenerator.generateEmptySave())
 		}
 	});
 

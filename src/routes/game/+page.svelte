@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Link from "$lib/components/link.svelte";
 	import Button from "$lib/components/ui/button/button.svelte";
-	import { Footer } from "$lib/components/ui/card";
 	import * as Dialog from "$lib/components/ui/dialog";
 	import { onMount } from "svelte";
+	import { PUBLIC_UNITY_INSTANCE_URL } from "$env/static/public";
 	import type { PageData } from "./$types";
 	import { writable } from "svelte/store";
 
@@ -11,49 +11,32 @@
 
 	let iframe: HTMLIFrameElement;
 	let isMenuOpen = writable(true);
+	let isUnityReady = writable(false);
 
-	onMount(() => {
-		iframe.contentWindow?.postMessage(
-			{
-				type: "jsToUnity",
-				data: {
-					action: "loadSave",
-					args: {
-						json: "dsdsa"
-					}
-				}
-			},
-			"*"
-		);
-	});
+	async function onIframeMessage(event: MessageEvent) {
+		if (event.source !== iframe.contentWindow) return;
 
-	function onIframeLoad() {
-		iframe.contentWindow?.addEventListener("message", (event: MessageEvent) => {
-			if (event.data === "ready") {
-				iframe.contentWindow?.postMessage("getUnityInstance", "*");
-			} else if (event.data?.type === "unityInstance") {
-				const unityInstance = event.data.unityInstance;
-				iframe.contentWindow?.postMessage("setUnityInstance", "*");
-				console.log(unityInstance);
-			}
-		});
+		const message = JSON.parse(event.data);
+
+		if (!message.type || !message.data) console.error("Invalid message from iframe", message);
+
+		switch (message.type) {
+			case "unityToJs":
+				handleUnityMessage(message.data);
+				break;
+		}
+	}
+
+	async function handleUnityMessage(data: Object) {
+		console.log("Unity message", data);
 	}
 
 	async function loadSave(id: number) {
 		let saveContent: Object | null = null;
 		if (id !== -1) {
-			saveContent = data.savesContentMap.get(id);
+			saveContent = data.savesContentMap.get(id) as Object;
 		} else {
-			const res = await fetch("api/saves", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					title: "New save",
-					json: "{}"
-				})
-			});
+			const res = await fetch("api/save", { method: "POST" });
 
 			if (!res.ok) {
 				// TODO: Show error
@@ -72,7 +55,6 @@
 			saveContent = save;
 		}
 
-		console.log(saveContent);
 		iframe.contentWindow?.postMessage(
 			JSON.stringify({
 				type: "jsToUnity",
@@ -132,7 +114,7 @@
 </Dialog.Root>
 
 <div class="h-lvh w-full">
-	<iframe bind:this={iframe} on:load={onIframeLoad} title="Game window" src="https://tower-defense.kristn.co.uk/" class="h-lvh w-full" />
+	<iframe bind:this={iframe} title="Game window" src={PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full" />
 	<button class="fixed bottom-4 right-4 z-10" on:click={toggleFullscreen}>
 		<img src="icons/fullscreen.webp" alt="Fullscreen" class="h-8 w-8" />
 	</button>
