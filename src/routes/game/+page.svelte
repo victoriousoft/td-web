@@ -19,6 +19,11 @@
 	const isMenuOpen = writable(true);
 	const isUnityReady = writable(false);
 	const selectedSlotId = writable(-1);
+	const lastSelectedSlotId = writable(-1);
+
+	onMount(() => {
+		$lastSelectedSlotId = localStorage.getItem("lastSelectedSlotId") ? parseInt(localStorage.getItem("lastSelectedSlotId") as string) : -1;
+	});
 
 	async function onIframeMessage(event: MessageEvent) {
 		console.log("(external) JS - Message from iframe", event.data);
@@ -55,6 +60,7 @@
 		if (id !== -1) {
 			saveContent = data.savesContentMap.get(id) as Object;
 			$selectedSlotId = id;
+			localStorage.setItem("lastSelectedSlotId", id.toString());
 		} else {
 			const res = await fetch("api/save", { method: "POST" });
 
@@ -74,6 +80,7 @@
 
 			saveContent = save.content;
 			$selectedSlotId = save.id;
+			localStorage.setItem("lastSelectedSlotId", save.id.toString());
 		}
 
 		await new Promise<void>((resolve) => {
@@ -131,7 +138,7 @@
 
 		{#if $selectedSlotId === -1}
 			{#each data.saves as save}
-				<div class="flex">
+				<div class="flex items-center rounded-md p-2 {save.id === $lastSelectedSlotId ? 'bg-gray-200' : ''}">
 					<p>
 						{save.title}
 						<br />
