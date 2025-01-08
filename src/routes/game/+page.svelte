@@ -6,6 +6,7 @@
 	import { env } from "$env/dynamic/public";
 	import type { PageData } from "./$types";
 	import { writable } from "svelte/store";
+	import { Separator } from "$lib/components/ui/separator";
 
 	export let data: PageData;
 
@@ -15,9 +16,9 @@
 	}
 
 	let iframe: HTMLIFrameElement;
-	let isMenuOpen = writable(true);
-	let isUnityReady = writable(false);
-	let disableMenuButtons = writable(false);
+	const isMenuOpen = writable(true);
+	const isUnityReady = writable(false);
+	const selectedSlotId = writable(-1);
 
 	async function onIframeMessage(event: MessageEvent) {
 		console.log("(external) JS - Message from iframe", event.data);
@@ -48,12 +49,12 @@
 	}
 
 	async function loadSave(id: number) {
-		$disableMenuButtons = true;
 		document.body.style.cursor = "wait";
 
 		let saveContent: Object | null = null;
 		if (id !== -1) {
 			saveContent = data.savesContentMap.get(id) as Object;
+			$selectedSlotId = id;
 		} else {
 			const res = await fetch("api/save", { method: "POST" });
 
@@ -71,7 +72,8 @@
 				return;
 			}
 
-			saveContent = save;
+			saveContent = save.content;
+			$selectedSlotId = save.id;
 		}
 
 		await new Promise<void>((resolve) => {
@@ -102,7 +104,6 @@
 
 		document.body.style.cursor = "default";
 
-		$disableMenuButtons = false;
 		$isMenuOpen = false;
 	}
 
@@ -118,32 +119,39 @@
 <Dialog.Root open={$isMenuOpen}>
 	<Dialog.Content>
 		<Dialog.Header>
-			<Dialog.Title class="text-center">Select a save</Dialog.Title>
-			<Dialog.Description>
+			<Dialog.Title class="text-center text-xl">Select a save</Dialog.Title>
+			<Dialog.Description class="text-l">
 				Chose a save to load. If you don't have any saves, you can create a new one.
 				<br />
 				You can manage your slots on the <Link href="/game/saves">🔗 saves page</Link>.
 			</Dialog.Description>
 		</Dialog.Header>
 
-		{#each data.saves as save}
-			<div class="flex">
-				<p>
-					{save.title}
-					<br />
-					<i class="text-s">updated at: {save.updatedAt.toLocaleString()}</i>
-				</p>
-				<Button disabled={$disableMenuButtons} class="ml-auto" on:click={() => loadSave(save.id)}>Load</Button>
-			</div>
-		{/each}
+		<Separator />
 
-		{#if data.saves.length >= 5}
-			<p class="text-center">Maximum of 5 saves allowed, please delete some to create new ones.</p>
+		{#if $selectedSlotId === -1}
+			{#each data.saves as save}
+				<div class="flex">
+					<p>
+						{save.title}
+						<br />
+						<i class="text-s">updated at: {save.updatedAt.toLocaleString()}</i>
+					</p>
+					<Button class="ml-auto" on:click={() => loadSave(save.id)}>Load</Button>
+				</div>
+			{/each}
+
+			<Separator />
+			{#if data.saves.length >= 5}
+				<p class="text-center">Maximum of 5 saves allowed, please delete some to create new ones.</p>
+			{:else}
+				<div class="flex">
+					<p>Create new save</p>
+					<Button class="ml-auto" on:click={() => loadSave(-1)}>Create</Button>
+				</div>
+			{/if}
 		{:else}
-			<div class="flex">
-				<p>Create new save</p>
-				<Button class="ml-auto" disabled={$disableMenuButtons} on:click={() => loadSave(-1)}>Create</Button>
-			</div>
+			<p class="text-center text-xl">Save selected, game loading...</p>
 		{/if}
 	</Dialog.Content>
 </Dialog.Root>

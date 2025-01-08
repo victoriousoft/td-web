@@ -13,6 +13,6 @@
 	});
 </script>
 
-<ScrollArea class="h-[300px] rounded-md border p-4">
+<ScrollArea class="h-[300px] rounded-md border p-4" orientation="both">
 	<pre class="rounded-md"><code class="language-{language}">{code}</code></pre>
 </ScrollArea>

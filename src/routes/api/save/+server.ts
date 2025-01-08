@@ -25,5 +25,8 @@ export const POST: RequestHandler = async ({ locals }) => {
 		}
 	});
 
-	return json(save.content);
+	return json({
+		id: save.id,
+		content: save.content
+	});
 };
