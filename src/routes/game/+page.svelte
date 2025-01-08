@@ -3,20 +3,27 @@
 	import Button from "$lib/components/ui/button/button.svelte";
 	import * as Dialog from "$lib/components/ui/dialog";
 	import { onMount } from "svelte";
-	import { PUBLIC_UNITY_INSTANCE_URL } from "$env/static/public";
+	import { env } from "$env/dynamic/public";
 	import type { PageData } from "./$types";
 	import { writable } from "svelte/store";
 
 	export let data: PageData;
 
+	interface UnityMessage {
+		action: string;
+		args: { [key: string]: any };
+	}
+
 	let iframe: HTMLIFrameElement;
 	let isMenuOpen = writable(true);
 	let isUnityReady = writable(false);
+	let disableMenuButtons = writable(false);
 
 	async function onIframeMessage(event: MessageEvent) {
+		console.log("(external) JS - Message from iframe", event.data);
 		if (event.source !== iframe.contentWindow) return;
 
-		const message = JSON.parse(event.data);
+		const message = event.data as { type: string; data: UnityMessage };
 
 		if (!message.type || !message.data) console.error("Invalid message from iframe", message);
 
@@ -27,11 +34,23 @@
 		}
 	}
 
-	async function handleUnityMessage(data: Object) {
-		console.log("Unity message", data);
+	onMount(() => {
+		window.addEventListener("message", onIframeMessage);
+	});
+
+	async function handleUnityMessage(data: UnityMessage) {
+		switch (data.action) {
+			case "ready":
+				console.log("Unity is ready");
+				isUnityReady.set(true);
+				break;
+		}
 	}
 
 	async function loadSave(id: number) {
+		$disableMenuButtons = true;
+		document.body.style.cursor = "wait";
+
 		let saveContent: Object | null = null;
 		if (id !== -1) {
 			saveContent = data.savesContentMap.get(id) as Object;
@@ -55,8 +74,21 @@
 			saveContent = save;
 		}
 
+		await new Promise<void>((resolve) => {
+			if ($isUnityReady) {
+				resolve();
+				return;
+			}
+			const unsubscribe = isUnityReady.subscribe((ready) => {
+				if (ready) {
+					unsubscribe();
+					resolve();
+				}
+			});
+		});
+
 		iframe.contentWindow?.postMessage(
-			JSON.stringify({
+			{
 				type: "jsToUnity",
 				data: {
 					action: "loadSave",
@@ -64,10 +96,13 @@
 						json: JSON.stringify(saveContent)
 					}
 				}
-			}),
+			},
 			"*"
 		);
 
+		document.body.style.cursor = "default";
+
+		$disableMenuButtons = false;
 		$isMenuOpen = false;
 	}
 
@@ -98,7 +133,7 @@
 					<br />
 					<i class="text-s">updated at: {save.updatedAt.toLocaleString()}</i>
 				</p>
-				<Button class="ml-auto" on:click={() => loadSave(save.id)}>Load</Button>
+				<Button disabled={$disableMenuButtons} class="ml-auto" on:click={() => loadSave(save.id)}>Load</Button>
 			</div>
 		{/each}
 
@@ -107,14 +142,14 @@
 		{:else}
 			<div class="flex">
 				<p>Create new save</p>
-				<Button class="ml-auto" on:click={() => loadSave(-1)}>Create</Button>
+				<Button class="ml-auto" disabled={$disableMenuButtons} on:click={() => loadSave(-1)}>Create</Button>
 			</div>
 		{/if}
 	</Dialog.Content>
 </Dialog.Root>
 
 <div class="h-lvh w-full">
-	<iframe bind:this={iframe} title="Game window" src={PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full" />
+	<iframe bind:this={iframe} title="Game window" src={env.PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full" />
 	<button class="fixed bottom-4 right-4 z-10" on:click={toggleFullscreen}>
 		<img src="icons/fullscreen.webp" alt="Fullscreen" class="h-8 w-8" />
 	</button>
