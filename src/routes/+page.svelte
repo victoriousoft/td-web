@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
 
-	export let data;
+	let { data } = $props();
 </script>
 
 <h1 class="m-5 text-center text-4xl font-bold">Tower Defense</h1>

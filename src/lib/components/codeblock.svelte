@@ -5,8 +5,12 @@
 	import { onMount } from "svelte";
 	import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
 
-	export let language: "json";
-	export let code: string;
+	interface Props {
+		language: "json";
+		code: string;
+	}
+
+	let { language, code }: Props = $props();
 
 	onMount(() => {
 		Prism.highlightAll();

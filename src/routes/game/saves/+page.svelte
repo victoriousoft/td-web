@@ -2,7 +2,7 @@
 	import { superForm } from "sveltekit-superforms";
 	import { zodClient } from "sveltekit-superforms/adapters";
 	import { saveSchema } from "./schema.js";
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 	import * as Form from "$lib/components/ui/form";
 	import { Input } from "$lib/components/ui/input";
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
@@ -13,9 +13,9 @@
 	import * as Card from "$lib/components/ui/card";
 	import Codeblock from "$lib/components/codeblock.svelte";
 
-	export let data;
+	let { data } = $props();
 
-	const form = superForm($page.data.form, {
+	const form = superForm(page.data.form, {
 		validators: zodClient(saveSchema)
 	});
 
@@ -53,7 +53,7 @@
 				<Card.Title>{save.title}</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<Accordion.Root>
+				<Accordion.Root type="single">
 					<Accordion.Item value="Content-{index}">
 						<Accordion.Trigger>Content</Accordion.Trigger>
 						<Accordion.Content>
@@ -62,9 +62,9 @@
 					</Accordion.Item>
 				</Accordion.Root>
 				<div class="flex justify-between">
-					<Button class="my-3" on:click={() => pushToForm(save)}>Edit</Button>
+					<Button class="my-3" onclick={() => pushToForm(save)}>Edit</Button>
 
-					<Button type="submit" variant="destructive" class="my-3" on:click={() => alert("impossible")}>Delete</Button>
+					<Button type="submit" variant="destructive" class="my-3" onclick={() => alert("impossible")}>Delete</Button>
 				</div>
 			</Card.Content>
 			<Card.Footer>
@@ -86,27 +86,33 @@
 			method="POST"
 			use:enhance
 			action="?/updateSave"
-			on:submit={() => {
+			onsubmit={() => {
 				dialogOpen.set(false);
 			}}
 		>
 			<Form.Field {form} name="id">
-				<Form.Control let:attrs>
-					<Input type="hidden" {...attrs} bind:value={$formData.id} />
+				<Form.Control>
+					{#snippet children({ props })}
+						<Input type="hidden" {...props} bind:value={$formData.id} />
+					{/snippet}
 				</Form.Control>
 			</Form.Field>
 
 			<Form.Field {form} name="title">
-				<Form.Control let:attrs>
-					<Form.Label>Title</Form.Label>
-					<Input {...attrs} bind:value={$formData.title} />
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label>Title</Form.Label>
+						<Input {...props} bind:value={$formData.title} />
+					{/snippet}
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Field {form} name="content">
-				<Form.Control let:attrs>
-					<Form.Label>Content</Form.Label>
-					<Textarea {...attrs} bind:value={$formData.content} />
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label>Content</Form.Label>
+						<Textarea {...props} bind:value={$formData.content} />
+					{/snippet}
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>

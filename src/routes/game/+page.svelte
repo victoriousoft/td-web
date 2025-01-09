@@ -8,14 +8,18 @@
 	import { writable } from "svelte/store";
 	import { Separator } from "$lib/components/ui/separator";
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	interface UnityMessage {
 		action: string;
 		args: { [key: string]: any };
 	}
 
-	let iframe: HTMLIFrameElement;
+	let iframe: HTMLIFrameElement | undefined = $state();
 	const isMenuOpen = writable(true);
 	const isUnityReady = writable(false);
 	const selectedSlotId = writable(-1);
@@ -27,7 +31,7 @@
 
 	async function onIframeMessage(event: MessageEvent) {
 		console.log("(external) JS - Message from iframe", event.data);
-		if (event.source !== iframe.contentWindow) return;
+		if (event.source !== iframe?.contentWindow) return;
 
 		const message = event.data as { type: string; data: UnityMessage };
 
@@ -54,6 +58,8 @@
 	}
 
 	async function loadSave(id: number) {
+		if (!iframe?.contentWindow) return;
+
 		document.body.style.cursor = "wait";
 
 		let saveContent: Object | null = null;
@@ -115,6 +121,8 @@
 	}
 
 	function toggleFullscreen() {
+		if (!iframe) return;
+
 		if (document.fullscreenElement) {
 			document.exitFullscreen();
 		} else {
@@ -144,7 +152,7 @@
 						<br />
 						<i class="text-s">updated at: {save.updatedAt.toLocaleString()}</i>
 					</p>
-					<Button class="ml-auto" on:click={() => loadSave(save.id)}>Load</Button>
+					<Button class="ml-auto" onclick={() => loadSave(save.id)}>Load</Button>
 				</div>
 			{/each}
 
@@ -154,7 +162,7 @@
 			{:else}
 				<div class="flex">
 					<p>Create new save</p>
-					<Button class="ml-auto" on:click={() => loadSave(-1)}>Create</Button>
+					<Button class="ml-auto" onclick={() => loadSave(-1)}>Create</Button>
 				</div>
 			{/if}
 		{:else}
@@ -164,8 +172,8 @@
 </Dialog.Root>
 
 <div class="h-lvh w-full">
-	<iframe bind:this={iframe} title="Game window" src={env.PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full" />
-	<button class="fixed bottom-4 right-4 z-10" on:click={toggleFullscreen}>
+	<iframe bind:this={iframe} title="Game window" src={env.PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full"></iframe>
+	<button class="fixed bottom-4 right-4 z-10" onclick={toggleFullscreen}>
 		<img src="icons/fullscreen.webp" alt="Fullscreen" class="h-8 w-8" />
 	</button>
 </div>

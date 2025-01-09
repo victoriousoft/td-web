@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { signIn, signOut } from "@auth/sveltekit/client";
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 	import Button from "./ui/button/button.svelte";
 	import Link from "./link.svelte";
 	import * as Sheet from "$lib/components/ui/sheet";
@@ -10,7 +10,7 @@
 	<div class="hidden items-center gap-4 md:flex">
 		<Link href="/">Home</Link>
 		<Link href="/game/saves">Save slots</Link>
-		{#if $page.data.user?.isAdmin}
+		{#if page.data.user?.isAdmin}
 			<Link href="/admin">Admin</Link>
 		{/if}
 	</div>
@@ -20,15 +20,15 @@
 		<Sheet.Content side={"left"}>
 			<Sheet.Header>
 				<Sheet.Title class="text-center">Tower Defense</Sheet.Title>
-				{#if $page.data.user}
-					<p class="text-center text-sm">{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
+				{#if page.data.user}
+					<p class="text-center text-sm">{page.data.user.name} {page.data.user.isAdmin ? "(ADM)" : ""}</p>
 				{/if}
 			</Sheet.Header>
 			<Sheet.Close>
 				<div class="mt-3 flex flex-col items-start gap-2">
 					<Link href="/">Home</Link>
 					<Link href="/game/saves">Save slots</Link>
-					{#if $page.data.user?.isAdmin}
+					{#if page.data.user?.isAdmin}
 						<Link href="/admin">Admin</Link>
 					{/if}
 				</div>
@@ -37,13 +37,13 @@
 	</Sheet.Root>
 
 	<div class="flex items-center gap-4">
-		{#if $page.data.user}
-			<p class="hidden md:block">{$page.data.user.name} {$page.data.user.isAdmin ? "(ADM)" : ""}</p>
-			<Button variant="destructive" on:click={() => signOut()}>Logout</Button>
+		{#if page.data.user}
+			<p class="hidden md:block">{page.data.user.name} {page.data.user.isAdmin ? "(ADM)" : ""}</p>
+			<Button variant="destructive" onclick={() => signOut()}>Logout</Button>
 			<Button href="/game">Play!</Button>
 		{:else}
-			<Button variant="secondary" on:click={() => signIn("google")}>Login</Button>
-			<Button on:click={() => alert("not yet...")}>Play!</Button>
+			<Button variant="secondary" onclick={() => signIn("google")}>Login</Button>
+			<Button onclick={() => alert("not yet...")}>Play!</Button>
 		{/if}
 	</div>
 </nav>
