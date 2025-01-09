@@ -62,9 +62,9 @@
 					</Accordion.Item>
 				</Accordion.Root>
 				<div class="flex justify-between">
-					<Button class="my-3" on:click={() => pushToForm(save)}>Edit</Button>
+					<Button class="my-3" onclick={() => pushToForm(save)}>Edit</Button>
 
-					<Button type="submit" variant="destructive" class="my-3" on:click={() => alert("impossible")}>Delete</Button>
+					<Button type="submit" variant="destructive" class="my-3" onclick={() => alert("impossible")}>Delete</Button>
 				</div>
 			</Card.Content>
 			<Card.Footer>
@@ -91,29 +91,29 @@
 			}}
 		>
 			<Form.Field {form} name="id">
-				<Form.Control >
+				<Form.Control>
 					{#snippet children({ attrs })}
-										<Input type="hidden" {...attrs} bind:value={$formData.id} />
-														{/snippet}
-								</Form.Control>
+						<Input type="hidden" {...attrs} bind:value={$formData.id} />
+					{/snippet}
+				</Form.Control>
 			</Form.Field>
 
 			<Form.Field {form} name="title">
-				<Form.Control >
+				<Form.Control>
 					{#snippet children({ attrs })}
-										<Form.Label>Title</Form.Label>
+						<Form.Label>Title</Form.Label>
 						<Input {...attrs} bind:value={$formData.title} />
-														{/snippet}
-								</Form.Control>
+					{/snippet}
+				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Field {form} name="content">
-				<Form.Control >
+				<Form.Control>
 					{#snippet children({ attrs })}
-										<Form.Label>Content</Form.Label>
+						<Form.Label>Content</Form.Label>
 						<Textarea {...attrs} bind:value={$formData.content} />
-														{/snippet}
-								</Form.Control>
+					{/snippet}
+				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Button>Update</Form.Button>

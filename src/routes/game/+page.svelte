@@ -148,7 +148,7 @@
 						<br />
 						<i class="text-s">updated at: {save.updatedAt.toLocaleString()}</i>
 					</p>
-					<Button class="ml-auto" on:click={() => loadSave(save.id)}>Load</Button>
+					<Button class="ml-auto" onclick={() => loadSave(save.id)}>Load</Button>
 				</div>
 			{/each}
 
@@ -158,7 +158,7 @@
 			{:else}
 				<div class="flex">
 					<p>Create new save</p>
-					<Button class="ml-auto" on:click={() => loadSave(-1)}>Create</Button>
+					<Button class="ml-auto" onclick={() => loadSave(-1)}>Create</Button>
 				</div>
 			{/if}
 		{:else}
