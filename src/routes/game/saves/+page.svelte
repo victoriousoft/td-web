@@ -13,7 +13,7 @@
 	import * as Card from "$lib/components/ui/card";
 	import Codeblock from "$lib/components/codeblock.svelte";
 
-	export let data;
+	let { data } = $props();
 
 	const form = superForm($page.data.form, {
 		validators: zodClient(saveSchema)
@@ -86,28 +86,34 @@
 			method="POST"
 			use:enhance
 			action="?/updateSave"
-			on:submit={() => {
+			onsubmit={() => {
 				dialogOpen.set(false);
 			}}
 		>
 			<Form.Field {form} name="id">
-				<Form.Control let:attrs>
-					<Input type="hidden" {...attrs} bind:value={$formData.id} />
-				</Form.Control>
+				<Form.Control >
+					{#snippet children({ attrs })}
+										<Input type="hidden" {...attrs} bind:value={$formData.id} />
+														{/snippet}
+								</Form.Control>
 			</Form.Field>
 
 			<Form.Field {form} name="title">
-				<Form.Control let:attrs>
-					<Form.Label>Title</Form.Label>
-					<Input {...attrs} bind:value={$formData.title} />
-				</Form.Control>
+				<Form.Control >
+					{#snippet children({ attrs })}
+										<Form.Label>Title</Form.Label>
+						<Input {...attrs} bind:value={$formData.title} />
+														{/snippet}
+								</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Field {form} name="content">
-				<Form.Control let:attrs>
-					<Form.Label>Content</Form.Label>
-					<Textarea {...attrs} bind:value={$formData.content} />
-				</Form.Control>
+				<Form.Control >
+					{#snippet children({ attrs })}
+										<Form.Label>Content</Form.Label>
+						<Textarea {...attrs} bind:value={$formData.content} />
+														{/snippet}
+								</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Button>Update</Form.Button>

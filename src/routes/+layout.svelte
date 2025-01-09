@@ -3,6 +3,11 @@
 	import { onMount } from "svelte";
 	import "../app.css";
 	import { page } from "$app/stores";
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	onMount(() => {
 		console.log($page.form);
@@ -14,5 +19,5 @@
 
 <Navbar />
 <main>
-	<slot></slot>
+	{@render children?.()}
 </main>

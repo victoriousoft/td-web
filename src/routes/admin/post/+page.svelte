@@ -32,17 +32,21 @@
 <h1>New post</h1>
 <form method="POST" use:enhance action="?/createPost">
 	<Form.Field {form} name="title">
-		<Form.Control let:attrs>
-			<Form.Label>Title</Form.Label>
-			<Input {...attrs} bind:value={$formData.title} />
-		</Form.Control>
+		<Form.Control >
+			{#snippet children({ attrs })}
+						<Form.Label>Title</Form.Label>
+				<Input {...attrs} bind:value={$formData.title} />
+								{/snippet}
+				</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
 	<Form.Field {form} name="content">
-		<Form.Control let:attrs>
-			<Form.Label>Content</Form.Label>
-			<Textarea {...attrs} bind:value={$formData.content} />
-		</Form.Control>
+		<Form.Control >
+			{#snippet children({ attrs })}
+						<Form.Label>Content</Form.Label>
+				<Textarea {...attrs} bind:value={$formData.content} />
+								{/snippet}
+				</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
 	<Form.Button>Submit</Form.Button>

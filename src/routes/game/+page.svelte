@@ -8,14 +8,18 @@
 	import { writable } from "svelte/store";
 	import { Separator } from "$lib/components/ui/separator";
 
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 
 	interface UnityMessage {
 		action: string;
 		args: { [key: string]: any };
 	}
 
-	let iframe: HTMLIFrameElement;
+	let iframe: HTMLIFrameElement = $state();
 	const isMenuOpen = writable(true);
 	const isUnityReady = writable(false);
 	const selectedSlotId = writable(-1);
@@ -164,8 +168,8 @@
 </Dialog.Root>
 
 <div class="h-lvh w-full">
-	<iframe bind:this={iframe} title="Game window" src={env.PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full" />
-	<button class="fixed bottom-4 right-4 z-10" on:click={toggleFullscreen}>
+	<iframe bind:this={iframe} title="Game window" src={env.PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full"></iframe>
+	<button class="fixed bottom-4 right-4 z-10" onclick={toggleFullscreen}>
 		<img src="icons/fullscreen.webp" alt="Fullscreen" class="h-8 w-8" />
 	</button>
 </div>
