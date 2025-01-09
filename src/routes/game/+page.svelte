@@ -7,6 +7,7 @@
 	import type { PageData } from "./$types";
 	import { writable } from "svelte/store";
 	import { Separator } from "$lib/components/ui/separator";
+	import { SaveGenerator } from "$lib/save-gen";
 
 	interface Props {
 		data: PageData;
@@ -60,14 +61,23 @@
 	async function loadSave(id: number) {
 		if (!iframe?.contentWindow) return;
 
-		document.body.style.cursor = "wait";
-
 		let saveContent: Object | null = null;
 		if (id !== -1) {
-			saveContent = data.savesContentMap.get(id) as Object;
+			saveContent = SaveGenerator.parseFromJson(data.savesContentMap.get(id) as Object);
+			if (!saveContent) {
+				// TODO: Show error
+				alert("Failed to load save, save is corrupted.");
+				console.error("Failed to load save, save is corrupted.", data.savesContentMap.get(id));
+				return;
+			}
+
+			document.body.style.cursor = "wait";
+
 			$selectedSlotId = id;
 			localStorage.setItem("lastSelectedSlotId", id.toString());
 		} else {
+			document.body.style.cursor = "wait";
+
 			const res = await fetch("api/save", { method: "POST" });
 
 			if (!res.ok) {

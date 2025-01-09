@@ -21,7 +21,7 @@ export const POST: RequestHandler = async ({ locals }) => {
 		data: {
 			title: `New save ${saveCount + 1}`,
 			userEmail: locals.user.email,
-			content: JSON.stringify(SaveGenerator.generateEmptySave())
+			content: SaveGenerator.generateEmptySave() as any
 		}
 	});
 

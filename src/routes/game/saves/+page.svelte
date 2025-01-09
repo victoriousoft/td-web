@@ -1,39 +1,18 @@
 <script lang="ts">
-	import { superForm } from "sveltekit-superforms";
-	import { zodClient } from "sveltekit-superforms/adapters";
-	import { saveSchema } from "./schema.js";
 	import { page } from "$app/state";
-	import * as Form from "$lib/components/ui/form";
-	import { Input } from "$lib/components/ui/input";
-	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
 	import Button from "$lib/components/ui/button/button.svelte";
 	import * as Accordion from "$lib/components/ui/accordion";
-	import * as Dialog from "$lib/components/ui/dialog";
-	import { writable } from "svelte/store";
 	import * as Card from "$lib/components/ui/card";
 	import Codeblock from "$lib/components/codeblock.svelte";
+	import type { JsonValue } from "fast-check";
 
 	let { data } = $props();
-
-	const form = superForm(page.data.form, {
-		validators: zodClient(saveSchema)
-	});
-
-	const { form: formData, enhance, errors } = form;
-	const dialogOpen = writable(false);
-
-	function pushToForm(save: any) {
-		$formData.id = save.id;
-		$formData.title = save.title;
-		$formData.content = inputPrettyPrint(save.content);
-		dialogOpen.set(true);
-	}
 
 	function htmlPrettyPrint(json: string) {
 		return inputPrettyPrint(json).replace(/\n/g, "<br>").replace(/ /g, "&nbsp;");
 	}
 
-	function inputPrettyPrint(json: string) {
+	function inputPrettyPrint(json: JsonValue) {
 		return JSON.stringify(json, null, 4);
 	}
 </script>
@@ -61,9 +40,7 @@
 						</Accordion.Content>
 					</Accordion.Item>
 				</Accordion.Root>
-				<div class="flex justify-between">
-					<Button class="my-3" onclick={() => pushToForm(save)}>Edit</Button>
-
+				<div class="flex justify-end">
 					<Button type="submit" variant="destructive" class="my-3" onclick={() => alert("impossible")}>Delete</Button>
 				</div>
 			</Card.Content>
@@ -75,48 +52,3 @@
 		</Card.Root>
 	{/each}
 </div>
-
-<Dialog.Root bind:open={$dialogOpen}>
-	<Dialog.Content>
-		<Dialog.Header>
-			<Dialog.Title>Edit Save</Dialog.Title>
-			<Dialog.Description>Edit the details of your save.</Dialog.Description>
-		</Dialog.Header>
-		<form
-			method="POST"
-			use:enhance
-			action="?/updateSave"
-			onsubmit={() => {
-				dialogOpen.set(false);
-			}}
-		>
-			<Form.Field {form} name="id">
-				<Form.Control>
-					{#snippet children({ props })}
-						<Input type="hidden" {...props} bind:value={$formData.id} />
-					{/snippet}
-				</Form.Control>
-			</Form.Field>
-
-			<Form.Field {form} name="title">
-				<Form.Control>
-					{#snippet children({ props })}
-						<Form.Label>Title</Form.Label>
-						<Input {...props} bind:value={$formData.title} />
-					{/snippet}
-				</Form.Control>
-				<Form.FieldErrors />
-			</Form.Field>
-			<Form.Field {form} name="content">
-				<Form.Control>
-					{#snippet children({ props })}
-						<Form.Label>Content</Form.Label>
-						<Textarea {...props} bind:value={$formData.content} />
-					{/snippet}
-				</Form.Control>
-				<Form.FieldErrors />
-			</Form.Field>
-			<Form.Button>Update</Form.Button>
-		</form>
-	</Dialog.Content>
-</Dialog.Root>
