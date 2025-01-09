@@ -2,7 +2,7 @@
 	import { superForm } from "sveltekit-superforms";
 	import { zodClient } from "sveltekit-superforms/adapters";
 	import { saveSchema } from "./schema.js";
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 	import * as Form from "$lib/components/ui/form";
 	import { Input } from "$lib/components/ui/input";
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
@@ -15,7 +15,7 @@
 
 	let { data } = $props();
 
-	const form = superForm($page.data.form, {
+	const form = superForm(page.data.form, {
 		validators: zodClient(saveSchema)
 	});
 
@@ -53,7 +53,7 @@
 				<Card.Title>{save.title}</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<Accordion.Root>
+				<Accordion.Root type="single">
 					<Accordion.Item value="Content-{index}">
 						<Accordion.Trigger>Content</Accordion.Trigger>
 						<Accordion.Content>
@@ -92,26 +92,26 @@
 		>
 			<Form.Field {form} name="id">
 				<Form.Control>
-					{#snippet children({ attrs })}
-						<Input type="hidden" {...attrs} bind:value={$formData.id} />
+					{#snippet children({ props })}
+						<Input type="hidden" {...props} bind:value={$formData.id} />
 					{/snippet}
 				</Form.Control>
 			</Form.Field>
 
 			<Form.Field {form} name="title">
 				<Form.Control>
-					{#snippet children({ attrs })}
+					{#snippet children({ props })}
 						<Form.Label>Title</Form.Label>
-						<Input {...attrs} bind:value={$formData.title} />
+						<Input {...props} bind:value={$formData.title} />
 					{/snippet}
 				</Form.Control>
 				<Form.FieldErrors />
 			</Form.Field>
 			<Form.Field {form} name="content">
 				<Form.Control>
-					{#snippet children({ attrs })}
+					{#snippet children({ props })}
 						<Form.Label>Content</Form.Label>
-						<Textarea {...attrs} bind:value={$formData.content} />
+						<Textarea {...props} bind:value={$formData.content} />
 					{/snippet}
 				</Form.Control>
 				<Form.FieldErrors />

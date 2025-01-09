@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 	import Button from "$lib/components/ui/button/button.svelte";
 	import * as Form from "$lib/components/ui/form";
 	import { Input } from "$lib/components/ui/input";
@@ -8,7 +8,7 @@
 	import { superForm } from "sveltekit-superforms";
 	import { zodClient } from "sveltekit-superforms/adapters";
 
-	const form = superForm($page.data.form, {
+	const form = superForm(page.data.form, {
 		validators: zodClient(createPostSchema)
 	});
 
@@ -17,10 +17,10 @@
 
 <div>
 	<h1>Old posts</h1>
-	{#if $page.data.posts.length === 0}
+	{#if page.data.posts.length === 0}
 		<p>No posts found.</p>
 	{/if}
-	{#each $page.data.posts as post}
+	{#each page.data.posts as post}
 		<p>{post.title}</p>
 		<form method="POST" action="?/deletePost">
 			<input type="hidden" name="id" value={post.id} />
@@ -32,21 +32,21 @@
 <h1>New post</h1>
 <form method="POST" use:enhance action="?/createPost">
 	<Form.Field {form} name="title">
-		<Form.Control >
-			{#snippet children({ attrs })}
-						<Form.Label>Title</Form.Label>
-				<Input {...attrs} bind:value={$formData.title} />
-								{/snippet}
-				</Form.Control>
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Title</Form.Label>
+				<Input {...props} bind:value={$formData.title} />
+			{/snippet}
+		</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
 	<Form.Field {form} name="content">
-		<Form.Control >
-			{#snippet children({ attrs })}
-						<Form.Label>Content</Form.Label>
-				<Textarea {...attrs} bind:value={$formData.content} />
-								{/snippet}
-				</Form.Control>
+		<Form.Control>
+			{#snippet children({ props })}
+				<Form.Label>Content</Form.Label>
+				<Textarea {...props} bind:value={$formData.content} />
+			{/snippet}
+		</Form.Control>
 		<Form.FieldErrors />
 	</Form.Field>
 	<Form.Button>Submit</Form.Button>

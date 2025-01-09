@@ -19,7 +19,7 @@
 		args: { [key: string]: any };
 	}
 
-	let iframe: HTMLIFrameElement = $state();
+	let iframe: HTMLIFrameElement | undefined = $state();
 	const isMenuOpen = writable(true);
 	const isUnityReady = writable(false);
 	const selectedSlotId = writable(-1);
@@ -31,7 +31,7 @@
 
 	async function onIframeMessage(event: MessageEvent) {
 		console.log("(external) JS - Message from iframe", event.data);
-		if (event.source !== iframe.contentWindow) return;
+		if (event.source !== iframe?.contentWindow) return;
 
 		const message = event.data as { type: string; data: UnityMessage };
 
@@ -58,6 +58,8 @@
 	}
 
 	async function loadSave(id: number) {
+		if (!iframe?.contentWindow) return;
+
 		document.body.style.cursor = "wait";
 
 		let saveContent: Object | null = null;
@@ -119,6 +121,8 @@
 	}
 
 	function toggleFullscreen() {
+		if (!iframe) return;
+
 		if (document.fullscreenElement) {
 			document.exitFullscreen();
 		} else {
