@@ -4,9 +4,22 @@
 	import Button from "./ui/button/button.svelte";
 	import Link from "./link.svelte";
 	import * as Sheet from "$lib/components/ui/sheet";
+	import type { Action } from "@sveltejs/kit";
+	import { on } from "svelte/events";
+
+	// @ts-ignore
+	const confirmation: Action<HTMLElement, string | undefined> = (node, prompt = "Are you sure you want to exit? Progress may not be saved?") => {
+		const handler = (e: Event) => {
+			if (page.url.pathname !== "/game") return;
+			if (!confirm(prompt)) e.preventDefault();
+		};
+
+		// @ts-ignore
+		$effect(() => on(node, "click", handler));
+	};
 </script>
 
-<nav class="flex w-full items-center justify-between border-b p-5">
+<nav use:confirmation class="flex w-full items-center justify-between border-b p-5">
 	<div class="hidden items-center gap-4 md:flex">
 		<Link href="/">Home</Link>
 		<Link href="/game/saves">Save slots</Link>
