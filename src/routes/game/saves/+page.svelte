@@ -5,6 +5,7 @@
 	import * as Card from "$lib/components/ui/card";
 	import Codeblock from "$lib/components/codeblock.svelte";
 	import type { JsonValue } from "fast-check";
+	import { SaveGenerator } from "$lib/save-gen";
 
 	let { data } = $props();
 
@@ -28,8 +29,11 @@
 <div class="grid grid-cols-1 gap-4 px-5 md:grid-cols-2 lg:grid-cols-3">
 	{#each data.saves as save, index}
 		<Card.Root>
-			<Card.Header>
+			<Card.Header class="flex flex-row items-center justify-between">
 				<Card.Title>{save.title}</Card.Title>
+				<button onclick={() => alert("impossible")}>
+					<span class="material-symbols-outlined -translate-y-1"> edit </span>
+				</button>
 			</Card.Header>
 			<Card.Content>
 				<Accordion.Root type="single">
@@ -46,7 +50,7 @@
 			</Card.Content>
 			<Card.Footer>
 				<p class="text-sm text-gray-500">
-					Created: {save.createdAt.toLocaleString()} <br /> Updated: {save.updatedAt.toLocaleString()}
+					Created: {save.createdAt.toLocaleDateString()} <br /> Updated: {SaveGenerator.getRelativeDate(save.updatedAt)}
 				</p>
 			</Card.Footer>
 		</Card.Root>

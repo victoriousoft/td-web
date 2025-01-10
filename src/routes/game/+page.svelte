@@ -8,6 +8,7 @@
 	import { writable } from "svelte/store";
 	import { Separator } from "$lib/components/ui/separator";
 	import { SaveGenerator } from "$lib/save-gen";
+	import { showError } from "$lib/components/error.svelte";
 
 	interface Props {
 		data: PageData;
@@ -65,8 +66,7 @@
 		if (id !== -1) {
 			saveContent = SaveGenerator.parseFromJson(data.savesContentMap.get(id) as Object);
 			if (!saveContent) {
-				// TODO: Show error
-				alert("Failed to load save, save is corrupted.");
+				showError("Failed to load save", "Failed to load save, save is corrupted.");
 				console.error("Failed to load save, save is corrupted.", data.savesContentMap.get(id));
 				return;
 			}
@@ -81,7 +81,7 @@
 			const res = await fetch("api/save", { method: "POST" });
 
 			if (!res.ok) {
-				// TODO: Show error
+				showError("Failed to create new save", "Failed to create new save, the server response was invalid");
 				console.error("Failed to create new save");
 				return;
 			}
@@ -89,7 +89,7 @@
 			const save = await res.json();
 
 			if (save === null) {
-				// TODO: show error
+				showError("Failed to create new save", "Failed to create new save, the server response was invalid");
 				console.error("Failed to create new save");
 				return;
 			}
@@ -160,7 +160,7 @@
 					<p>
 						{save.title}
 						<br />
-						<i class="text-s">updated at: {save.updatedAt.toLocaleString()}</i>
+						<i class="text-s">Updated {SaveGenerator.getRelativeDate(save.updatedAt)}</i>
 					</p>
 					<Button class="ml-auto" onclick={() => loadSave(save.id)}>Load</Button>
 				</div>

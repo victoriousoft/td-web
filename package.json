@@ -45,6 +45,7 @@
 	"dependencies": {
 		"@auth/sveltekit": "^1.7.4",
 		"@prisma/client": "^6.2.1",
-		"@sveltejs/adapter-node": "^5.2.11"
+		"@sveltejs/adapter-node": "^5.2.11",
+		"datetime-difference": "^1.0.2"
 	}
 }
