@@ -7,6 +7,7 @@
 	import { SaveGenerator } from "$lib/save-gen";
 	import Input from "$lib/components/ui/input/input.svelte";
 	import { enhance } from "$app/forms";
+	import { showError } from "$lib/components/error.svelte";
 
 	let { data } = $props();
 
@@ -47,14 +48,19 @@
 							}
 
 							return async ({ result, update }) => {
+								console.log(result);
+
 								if (result.status === 200) {
 									saves = saves.map((s) => {
 										// @ts-ignore
 										if (s.id === save.id) s.title = result.data.save.title;
 										return s;
 									});
-									currentEditingSaveId = -1;
+								} else {
+									showError(result.data.title, result.data.message);
 								}
+
+								currentEditingSaveId = -1;
 							};
 						}}
 					>
@@ -82,6 +88,7 @@
 					use:enhance={() => {
 						return async ({ result, update }) => {
 							if (result.status === 200) saves = saves.filter((s) => s.id !== save.id);
+							else showError(result.data.title, result.data.message);
 						};
 					}}
 					class="flex justify-end"
@@ -89,7 +96,7 @@
 					method="POST"
 				>
 					<input type="hidden" name="id" value={save.id} />
-					<Button type="submit" variant="destructive" class="my-3">Delete</Button>
+					<Button type="submit" aria-required variant="destructive" class="my-3">Delete</Button>
 				</form>
 			</Card.Content>
 			<Card.Footer>

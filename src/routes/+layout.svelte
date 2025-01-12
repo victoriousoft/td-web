@@ -3,7 +3,7 @@
 	import { onMount } from "svelte";
 	import "../app.css";
 	import { page } from "$app/state";
-	import Error from "$lib/components/error.svelte";
+	import Error, { showError } from "$lib/components/error.svelte";
 	interface Props {
 		children?: import("svelte").Snippet;
 	}
@@ -12,7 +12,7 @@
 
 	onMount(() => {
 		if (page.form?.message) {
-			alert("Error " + page.form.message);
+			showError(page.form.title, page.form.message);
 			console.error(page.form.message);
 		}
 	});
