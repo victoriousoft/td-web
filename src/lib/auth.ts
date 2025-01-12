@@ -1,6 +1,7 @@
 import { SvelteKitAuth, type DefaultSession } from "@auth/sveltekit";
 import Google from "@auth/sveltekit/providers/google";
 import { prisma } from "./prisma";
+import { fail } from "@sveltejs/kit";
 
 declare module "@auth/sveltekit" {
 	interface Session extends DefaultSession {
@@ -29,10 +30,14 @@ export const { handle, signIn } = SvelteKitAuth({
 
 async function isAdmin(email: string): Promise<boolean> {
 	return (
-		(await prisma.Admin.findFirst({
+		(await prisma.admin.findFirst({
 			where: {
 				email
 			}
 		})) !== null
 	);
+}
+
+export function getUnauthorizedFail() {
+	return fail(401, { title: "Unauthorized", message: "You must be logged in to perform this action." });
 }

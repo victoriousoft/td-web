@@ -10,11 +10,7 @@
 	import { SaveGenerator } from "$lib/save-gen";
 	import { showError } from "$lib/components/error.svelte";
 
-	interface Props {
-		data: PageData;
-	}
-
-	let { data }: Props = $props();
+	let { data } = $props();
 
 	interface UnityMessage {
 		action: string;
@@ -152,7 +148,9 @@
 			</Dialog.Description>
 		</Dialog.Header>
 
-		<Separator />
+		{#if data.saves.length > 0}
+			<Separator />
+		{/if}
 
 		{#if $selectedSlotId === -1}
 			{#each data.saves as save}
