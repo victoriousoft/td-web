@@ -4,18 +4,21 @@
 	import Button from "./ui/button/button.svelte";
 	import Link from "./link.svelte";
 	import * as Sheet from "$lib/components/ui/sheet";
-	import type { Action } from "@sveltejs/kit";
 	import { on } from "svelte/events";
+	import { showPrompt } from "./prompt.svelte";
+	import { goto } from "$app/navigation";
 
-	// @ts-ignore
-	const confirmation: Action<HTMLElement, string | undefined> = (node, prompt = "Are you sure you want to exit? Progress may not be saved?") => {
-		const handler = (e: Event) => {
+	const confirmation = (node: HTMLElement, prompt = "Progress may not be saved. Verify before exiting") => {
+		const handler = async (e: Event) => {
+			if (!(e.target instanceof HTMLAnchorElement)) return;
 			if (page.url.pathname !== "/game") return;
-			if (!confirm(prompt)) e.preventDefault();
+
+			e.preventDefault();
+			if (await showPrompt("Are you sure you want to exit the game?", prompt)) goto((e.target as HTMLAnchorElement).href);
 		};
 
-		// @ts-ignore
-		$effect(() => on(node, "click", handler));
+		const destroy = on(node, "click", handler);
+		return { destroy };
 	};
 </script>
 

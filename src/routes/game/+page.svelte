@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Link from "$lib/components/link.svelte";
 	import Button from "$lib/components/ui/button/button.svelte";
-	import * as Dialog from "$lib/components/ui/dialog";
 	import { onMount } from "svelte";
 	import { env } from "$env/dynamic/public";
-	import type { PageData } from "./$types";
+	import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
 	import { writable } from "svelte/store";
 	import { Separator } from "$lib/components/ui/separator";
 	import { SaveGenerator } from "$lib/save-gen";
@@ -137,16 +136,16 @@
 	}
 </script>
 
-<Dialog.Root open={$isMenuOpen}>
-	<Dialog.Content>
-		<Dialog.Header>
-			<Dialog.Title class="text-center text-xl">Select a save</Dialog.Title>
-			<Dialog.Description class="text-l">
+<AlertDialog.Root open={$isMenuOpen}>
+	<AlertDialog.Content>
+		<AlertDialog.Header>
+			<AlertDialog.Title class="text-center text-xl">Select a save</AlertDialog.Title>
+			<AlertDialog.Description class="text-l">
 				Chose a save to load. If you don't have any saves, you can create a new one.
 				<br />
 				You can manage your slots on the <Link href="/game/saves">🔗 saves page</Link>.
-			</Dialog.Description>
-		</Dialog.Header>
+			</AlertDialog.Description>
+		</AlertDialog.Header>
 
 		{#if data.saves.length > 0}
 			<Separator />
@@ -176,8 +175,8 @@
 		{:else}
 			<p class="text-center text-xl">Save selected, game loading...</p>
 		{/if}
-	</Dialog.Content>
-</Dialog.Root>
+	</AlertDialog.Content>
+</AlertDialog.Root>
 
 <div class="h-lvh w-full">
 	<iframe bind:this={iframe} title="Game window" src={env.PUBLIC_UNITY_INSTANCE_URL} class="h-lvh w-full"></iframe>

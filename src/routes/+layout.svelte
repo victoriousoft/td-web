@@ -4,6 +4,7 @@
 	import "../app.css";
 	import { page } from "$app/state";
 	import Error, { showError } from "$lib/components/error.svelte";
+	import Prompt, { showPrompt } from "$lib/components/prompt.svelte";
 	interface Props {
 		children?: import("svelte").Snippet;
 	}
@@ -23,6 +24,7 @@
 </svelte:head>
 
 <Error />
+<Prompt />
 <Navbar />
 <main>
 	{@render children?.()}
