@@ -40,9 +40,16 @@
 				break;
 		}
 	}
+	async function oneBeforeUnload(event: BeforeUnloadEvent) {
+		if (!isUnityReady) return;
+
+		event.preventDefault();
+		event.returnValue = "";
+	}
 
 	onMount(() => {
 		window.addEventListener("message", onIframeMessage);
+		window.addEventListener("beforeunload", oneBeforeUnload);
 	});
 
 	async function handleUnityMessage(data: UnityMessage) {
