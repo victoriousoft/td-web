@@ -2,8 +2,8 @@
 	import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
 	import Button from "./ui/button/button.svelte";
 
-	let okHandler: () => void;
-	let cancelHandler: () => void;
+	let okHandler = $state<() => void>();
+	let cancelHandler = $state<() => void>();
 	let title = $state("An error has occured");
 	let message = $state("An error has occured");
 	let isOpen = $state(false);
