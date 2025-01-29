@@ -57,6 +57,7 @@
 										return s;
 									});
 								} else {
+									// @ts-ignore
 									showError(result.data.title, result.data.message);
 								}
 
@@ -88,6 +89,7 @@
 					use:enhance={() => {
 						return async ({ result, update }) => {
 							if (result.status === 200) saves = saves.filter((s) => s.id !== save.id);
+							// @ts-ignore
 							else showError(result.data.title, result.data.message);
 						};
 					}}
