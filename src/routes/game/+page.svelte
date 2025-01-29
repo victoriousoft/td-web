@@ -8,6 +8,7 @@
 	import { Separator } from "$lib/components/ui/separator";
 	import { SaveGenerator } from "$lib/save-gen";
 	import { showError } from "$lib/components/error.svelte";
+	import { tick } from "svelte";
 
 	let { data } = $props();
 
@@ -17,13 +18,22 @@
 	}
 
 	let iframe: HTMLIFrameElement | undefined = $state();
-	const isMenuOpen = writable(true);
-	const isUnityReady = writable(false);
-	const selectedSlotId = writable(-1);
-	const lastSelectedSlotId = writable(-1);
+	let isMenuOpen = $state(true);
+	let isUnityReady = $state(false);
+	let selectedSlotId = $state(-1);
+	let lastSelectedSlotId = $state(-1);
 
 	onMount(() => {
-		$lastSelectedSlotId = localStorage.getItem("lastSelectedSlotId") ? parseInt(localStorage.getItem("lastSelectedSlotId") as string) : -1;
+		window.addEventListener("message", onIframeMessage);
+		window.addEventListener("beforeunload", oneBeforeUnload);
+
+		const savedSlot = localStorage.getItem("lastSelectedSlotId");
+		lastSelectedSlotId = savedSlot ? parseInt(savedSlot) : -1;
+
+		return () => {
+			window.removeEventListener("message", onIframeMessage);
+			window.removeEventListener("beforeunload", oneBeforeUnload);
+		};
 	});
 
 	async function onIframeMessage(event: MessageEvent) {
@@ -47,16 +57,11 @@
 		event.returnValue = "";
 	}
 
-	onMount(() => {
-		window.addEventListener("message", onIframeMessage);
-		window.addEventListener("beforeunload", oneBeforeUnload);
-	});
-
 	async function handleUnityMessage(data: UnityMessage) {
 		switch (data.action) {
 			case "ready":
 				console.log("Unity is ready");
-				isUnityReady.set(true);
+				isUnityReady = true;
 				break;
 		}
 	}
@@ -75,7 +80,7 @@
 
 			document.body.style.cursor = "wait";
 
-			$selectedSlotId = id;
+			selectedSlotId = id;
 			localStorage.setItem("lastSelectedSlotId", id.toString());
 		} else {
 			document.body.style.cursor = "wait";
@@ -97,22 +102,22 @@
 			}
 
 			saveContent = save.content;
-			$selectedSlotId = save.id;
+			selectedSlotId = save.id;
 			localStorage.setItem("lastSelectedSlotId", save.id.toString());
 		}
 
-		await new Promise<void>((resolve) => {
-			if ($isUnityReady) {
-				resolve();
-				return;
-			}
-			const unsubscribe = isUnityReady.subscribe((ready) => {
-				if (ready) {
-					unsubscribe();
-					resolve();
-				}
+		if (!isUnityReady) {
+			await new Promise<void>((resolve) => {
+				const cleanup = $effect.root(() => {
+					$effect(() => {
+						if (isUnityReady) {
+							cleanup();
+							resolve();
+						}
+					});
+				});
 			});
-		});
+		}
 
 		iframe.contentWindow?.postMessage(
 			{
@@ -129,7 +134,7 @@
 
 		document.body.style.cursor = "default";
 
-		$isMenuOpen = false;
+		isMenuOpen = false;
 	}
 
 	function toggleFullscreen() {
@@ -143,7 +148,7 @@
 	}
 </script>
 
-<AlertDialog.Root open={$isMenuOpen}>
+<AlertDialog.Root open={isMenuOpen}>
 	<AlertDialog.Content>
 		<AlertDialog.Header>
 			<AlertDialog.Title class="text-center text-xl">Select a save</AlertDialog.Title>
@@ -158,9 +163,9 @@
 			<Separator />
 		{/if}
 
-		{#if $selectedSlotId === -1}
+		{#if selectedSlotId === -1}
 			{#each data.saves as save}
-				<div class="flex items-center rounded-md p-2 {save.id === $lastSelectedSlotId ? 'bg-gray-200' : ''}">
+				<div class="flex items-center rounded-md p-2 {save.id === lastSelectedSlotId ? 'bg-gray-200' : ''}">
 					<p>
 						{save.title}
 						<br />
