@@ -25,7 +25,7 @@ $ npm i
 
 Aplikování databázového schématu:
 ```bash
-$ npx prisma db push
+$ npx prisma migrate deploy
 ```
 
 ## Spuštění
