@@ -165,7 +165,7 @@
 
 		{#if selectedSlotId === -1}
 			{#each data.saves as save}
-				<div class="flex items-center rounded-md p-2 {save.id === lastSelectedSlotId ? 'bg-gray-200' : ''}">
+				<div class="flex items-center rounded-md p-2 {save.id === lastSelectedSlotId ? 'bg-primary-700' : ''}">
 					<p>
 						{save.title}
 						<br />

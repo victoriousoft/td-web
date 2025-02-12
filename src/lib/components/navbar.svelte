@@ -22,7 +22,7 @@
 	};
 </script>
 
-<nav use:confirmation class="flex w-full items-center justify-between border-b p-5">
+<nav use:confirmation class="bg-primary-700 flex w-full items-center justify-between border-b border-black p-5">
 	<div class="hidden items-center gap-4 md:flex">
 		<Link href="/">Home</Link>
 		<Link href="/game/saves">Save slots</Link>
