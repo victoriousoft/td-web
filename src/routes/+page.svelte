@@ -4,7 +4,7 @@
 	let { data } = $props();
 </script>
 
-<h1 class="m-5 text-center text-4xl font-bold">Tower Defense</h1>
+<h1 class="m-5 text-center font-seagram text-6xl">Tower Defense</h1>
 <p class="text-center text-gray-500">Coming soon...</p>
 
 <h2 class="m-5 mt-10 text-center text-2xl font-bold">Latest updates</h2>
