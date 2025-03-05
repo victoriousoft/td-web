@@ -9,6 +9,7 @@
 	import { SaveGenerator } from "$lib/save-gen";
 	import { showError } from "$lib/components/error.svelte";
 	import { tick } from "svelte";
+	import { showAlert } from "$lib/components/alert.svelte";
 
 	let { data } = $props();
 
@@ -38,6 +39,8 @@
 
 	async function onIframeMessage(event: MessageEvent) {
 		console.log("(external) JS - Message from iframe", event.data);
+
+		// Comment for dev
 		if (event.source !== iframe?.contentWindow) return;
 
 		const message = event.data as { type: string; data: UnityMessage };
@@ -62,6 +65,52 @@
 			case "ready":
 				console.log("Unity is ready");
 				isUnityReady = true;
+				break;
+
+			case "save":
+				if (!selectedSlotId) {
+					showError("Failed to save", "No save slot selected");
+					console.error("Failed to save, no save slot selected", data);
+					return;
+				}
+
+				const saveContent = data.args.saveContent;
+				if (!saveContent) {
+					showError("Failed to save", "No save data was sent by Unity");
+					console.error("Failed to save, no save data was sent by Unity", data);
+					return;
+				}
+
+				const parsedSaveContent = SaveGenerator.parseFromJson(saveContent);
+				if (!parsedSaveContent) {
+					showError("Failed to save", "Failed to save, save is corrupted. The save has been stored to local storage as a backup");
+					console.error("Failed to save, save is corrupted.", saveContent);
+					window.localStorage.setItem("backupSave", JSON.stringify(saveContent));
+					return;
+				}
+
+				const res = await fetch("api/save", {
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						id: selectedSlotId,
+						newContent: parsedSaveContent
+					})
+				});
+
+				if (!res.ok) {
+					showError("Failed to save", "Failed to save, the server response was invalid");
+					console.error("Failed to save, the server response was invalid", res);
+					return;
+				}
+
+				showAlert("Save update successful", "The save was updated successfully");
+				break;
+
+			default:
+				console.error("Unknown action from Unity", data);
 				break;
 		}
 	}
