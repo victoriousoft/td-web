@@ -9,7 +9,7 @@
 
 <h1 class="m-5 text-center text-4xl font-bold">Enemy wiki</h1>
 
-<div class="m-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+<div class="m-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
 	{#each data.enemies as enemy}
 		<Card.Root>
 			<Card.Header>
@@ -17,7 +17,9 @@
 			</Card.Header>
 			<Card.Content>
 				<div class="flex flex-col gap-2">
-					<img src={enemy.imageUrl} alt={enemy.name} class="mb-2 h-40 w-full rounded-md object-cover" />
+					<div class="mb-2 flex h-40 items-center justify-center">
+						<img src={enemy.imageUrl} alt={enemy.name} class="max-h-40 max-w-full rounded-md object-contain" />
+					</div>
 					<p class="text-sm text-muted-foreground">{enemy.description}</p>
 					<div class="mt-2 grid grid-cols-2 gap-2">
 						<p><span class="font-semibold">Health:</span> {enemy.health}</p>
