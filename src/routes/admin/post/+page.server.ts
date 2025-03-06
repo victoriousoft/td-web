@@ -7,7 +7,7 @@ import { fail } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async () => {
 	return {
-		posts: await prisma.Post.findMany({
+		posts: await prisma.post.findMany({
 			orderBy: { createdAt: "desc" }
 		}),
 		form: await superValidate(zod(createPostSchema))
@@ -30,7 +30,7 @@ export const actions: Actions = {
 			});
 		}
 
-		await prisma.Post.create({
+		await prisma.post.create({
 			data: {
 				title: form.data.title,
 				content: form.data.content
@@ -56,7 +56,7 @@ export const actions: Actions = {
 			});
 		}
 
-		await prisma.Post.delete({
+		await prisma.post.delete({
 			where: { id: parseInt(id) }
 		});
 	}

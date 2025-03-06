@@ -2,24 +2,9 @@
 	let { data } = $props();
 	import * as Card from "$lib/components/ui/card";
 
-	console.log(data);
-
 	function getRezistancePercentage(resistance: number) {
 		return resistance * 25;
 	}
-	/*
-    model Enemy {
-    id                 Int    @id @default(autoincrement())
-    name               String @unique @db.VarChar(255)
-    imageUrl           String @db.TinyText
-    description        String @db.Text
-    health             Int
-    damage             Int
-    physicalResistance Int
-    magicalResistance  Int
-    playerLives        Int
-}
-    */
 </script>
 
 <h1 class="m-5 text-center text-4xl font-bold">Enemy wiki</h1>
