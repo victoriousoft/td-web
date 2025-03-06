@@ -29,7 +29,8 @@ model Save {
 
 model Enemy {
     id                 Int    @id @default(autoincrement())
-    name               String @db.TinyText
+    name               String @unique @db.VarChar(255)
+    imageUrl           String @db.TinyText
     description        String @db.Text
     health             Int
     damage             Int

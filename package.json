@@ -9,7 +9,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"wiki-pull": "WIKI_URL=http://tower-defense.kristn.co.uk/public-static-void-main-string-args/balancer-data.csv npx tsx prisma/wiki-pull.ts"
 	},
 	"prisma": {
 		"seed": "npx tsx prisma/seed.ts"
