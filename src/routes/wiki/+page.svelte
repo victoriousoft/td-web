@@ -1,6 +1,7 @@
 <script lang="ts">
-	let { data } = $props();
 	import * as Card from "$lib/components/ui/card";
+
+	let { data } = $props();
 
 	function getRezistancePercentage(resistance: number) {
 		return resistance * 25;
