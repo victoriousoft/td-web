@@ -19,7 +19,4 @@ COPY package.json .
 EXPOSE 3000
 ENV NODE_ENV=production
 
-RUN npx prisma migrate deploy
-RUN npm run wiki-pull
-
-CMD ["sh", "-c", "node build"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run wiki-pull && node build"]
