@@ -10,7 +10,7 @@
 
 <h1 class="m-5 text-center text-4xl font-bold">Enemy wiki</h1>
 
-<div class="m-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+<div class="m-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
 	{#each data.enemies as enemy}
 		<Card.Root>
 			<Card.Header>
