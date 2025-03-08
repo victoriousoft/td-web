@@ -1,5 +1,5 @@
 import { prisma } from "$lib/prisma";
-import type { ServerLoad } from "@sveltejs/kit";
+import { fail, type Actions, type ServerLoad } from "@sveltejs/kit";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { schema } from "./schema";
@@ -16,3 +16,31 @@ export const load: ServerLoad = async () => {
 
 	return { enemies, enemyMap, form };
 };
+
+export const actions: Actions = {
+	update: async (event) => {
+		if (!event.locals.user?.isAdmin) {
+			return fail(403, {
+				title: "You shall not post",
+				message: "You must be an admin to create a post"
+			});
+		}
+
+		const form = await superValidate(event, zod(schema));
+		if (!form.valid) {
+			return fail(400, {
+				form
+			});
+		}
+
+		await prisma.enemy.update({
+			where: { id: form.data.id },
+			data: {
+				description: form.data.description,
+				imageUrl: form.data.imageUrl
+			}
+		});
+
+		return { form };
+	}
+} satisfies Actions;

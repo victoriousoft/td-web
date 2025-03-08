@@ -7,6 +7,8 @@
 	import { schema } from "./schema.js";
 	import * as Form from "$lib/components/ui/form";
 	import { Input } from "$lib/components/ui/input";
+	import type { ActionResult } from "@sveltejs/kit";
+	import { enhance } from "$app/forms";
 
 	let { data } = $props();
 
@@ -17,7 +19,7 @@
 		validators: zodClient(schema)
 	});
 
-	const { form: formData, enhance } = form;
+	const { form: formData } = form;
 </script>
 
 <h2>Defined enemies</h2>
@@ -41,8 +43,18 @@
 				This action cannot be undone. This will permanently delete your account and remove your data from our servers.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
-		<form method="POST" use:enhance>
-			<input type="hidden" bind:value={$formData.id} />
+		<form
+			method="POST"
+			use:enhance={() => {
+				return async ({ result }: { result: ActionResult }) => {
+					if (result.type === "success") {
+						isMenuOpen = false;
+					}
+				};
+			}}
+			action="?/update"
+		>
+			<input type="hidden" name="id" bind:value={$formData.id} />
 			<Form.Field {form} name="description">
 				<Form.Control>
 					{#snippet children({ props })}
