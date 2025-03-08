@@ -3,3 +3,4 @@
 </script>
 
 <Button href="/admin/post">Posts</Button>
+<Button href="/admin/wiki">Wiki</Button>

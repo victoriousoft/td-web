@@ -22,10 +22,12 @@
 	};
 </script>
 
-<nav use:confirmation class="bg-primary-700 flex w-full items-center justify-between border-b border-black p-5">
+<nav use:confirmation class="flex w-full items-center justify-between border-b border-black bg-primary-700 p-5">
 	<div class="hidden items-center gap-4 md:flex">
 		<Link href="/">Home</Link>
 		<Link href="/game/saves">Save slots</Link>
+		<Link href="/wiki">Enemy wiki</Link>
+
 		{#if page.data.user?.isAdmin}
 			<Link href="/admin">Admin</Link>
 		{/if}
@@ -44,6 +46,7 @@
 				<div class="mt-3 flex flex-col items-start gap-2">
 					<Link href="/">Home</Link>
 					<Link href="/game/saves">Save slots</Link>
+					<Link href="/wiki">Enemy wiki</Link>
 					{#if page.data.user?.isAdmin}
 						<Link href="/admin">Admin</Link>
 					{/if}
