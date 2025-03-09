@@ -48,7 +48,7 @@
 						</div>
 						<p class="text-sm text-muted-foreground">This enemy is still unknown to you.</p>
 						<div class="mt-2">
-							<p class="text-red-500 font-semibold">Unlocked at level {enemy.unlockLevel + 1}</p>
+							<p class="font-semibold text-red-500">Unlocked after completing level {enemy.unlockLevel + 1}</p>
 						</div>
 					</div>
 				</Card.Content>
