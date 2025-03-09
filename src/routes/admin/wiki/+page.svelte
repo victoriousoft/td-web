@@ -75,6 +75,16 @@
 				<Form.FieldErrors />
 			</Form.Field>
 
+			<Form.Field {form} name="unlockLevel">
+				<Form.Control>
+					{#snippet children({ props })}
+						<Form.Label>Unlock level</Form.Label>
+						<Input {...props} type="number" bind:value={$formData.unlockLevel} />
+					{/snippet}
+				</Form.Control>
+				<Form.FieldErrors />
+			</Form.Field>
+
 			<div class="mt-4 flex justify-between">
 				<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
 				<AlertDialog.Action type="submit">Edit</AlertDialog.Action>

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Enemy` ADD COLUMN `unlockLevel` INTEGER NOT NULL DEFAULT 0;

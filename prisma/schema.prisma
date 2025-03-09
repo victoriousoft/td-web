@@ -37,4 +37,5 @@ model Enemy {
     physicalResistance Int
     magicalResistance  Int
     playerLives        Int
+    unlockLevel        Int    @default(0)
 }

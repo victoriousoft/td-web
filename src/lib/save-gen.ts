@@ -50,4 +50,8 @@ export class SaveGenerator {
 
 		return "Moments ago";
 	}
+
+	static getHighestUnlockedLevel(save: SaveData) {
+		return save.levels.length - 1;
+	}
 }

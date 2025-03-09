@@ -37,7 +37,8 @@ export const actions: Actions = {
 			where: { id: form.data.id },
 			data: {
 				description: form.data.description,
-				imageUrl: form.data.imageUrl
+				imageUrl: form.data.imageUrl,
+				unlockLevel: form.data.unlockLevel
 			}
 		});
 
