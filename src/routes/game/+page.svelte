@@ -198,7 +198,7 @@
 </script>
 
 <AlertDialog.Root open={isMenuOpen}>
-	<AlertDialog.Content>
+	<AlertDialog.Content escapeKeydownBehavior="ignore">
 		<AlertDialog.Header>
 			<AlertDialog.Title class="text-center text-xl">Select a save</AlertDialog.Title>
 			<AlertDialog.Description class="text-l">
