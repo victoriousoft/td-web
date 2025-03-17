@@ -39,3 +39,15 @@ model Enemy {
     playerLives        Int
     unlockLevel        Int    @default(0)
 }
+
+model Tower {
+    id          Int    @id @default(autoincrement())
+    name        String @unique @db.VarChar(255)
+    modelUrl    String @db.TinyText
+    description String @db.Text
+    price       Int
+    range       Int
+    damage      Int
+    cooldown    Int
+    unlockLevel Int    @default(0)
+}

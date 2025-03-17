@@ -2,7 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function loadCsv() {
+async function loadCsv(): Promise<{
+	enemyData: Record<string, string>[];
+	towerData: Record<string, string>[];
+}> {
 	const response = await fetch(process.env.WIKI_URL as string);
 	const file = await response.text();
 
@@ -14,12 +17,18 @@ async function loadCsv() {
 		if (items.length > 0) enemyLines.push(items);
 	}
 
-	const keys = enemyLines.shift();
+	const towerLines: string[][] = [];
+	for (const line of lines.slice(0, -1)) {
+		const items = line.split(",").slice(0, 9);
+		if (items.length > 0) towerLines.push(items);
+	}
+
+	const enemyKeys = enemyLines.shift();
 
 	const enemyData: Record<string, string>[] = enemyLines.map((line) => {
 		const enemy: Record<string, string> = {};
-		if (keys) {
-			keys.forEach((key, index) => {
+		if (enemyKeys) {
+			enemyKeys.forEach((key, index) => {
 				enemy[key] = line[index];
 			});
 			return enemy;
@@ -27,16 +36,30 @@ async function loadCsv() {
 		return {};
 	});
 
-	return enemyData;
+	const towerKeys = towerLines.shift();
+
+	const towerData: Record<string, string>[] = towerLines.map((line) => {
+		const tower: Record<string, string> = {};
+		if (towerKeys) {
+			towerKeys.forEach((key, index) => {
+				tower[key.toLowerCase()] = line[index];
+			});
+			return tower;
+		}
+		return {};
+	});
+
+	return { enemyData, towerData };
 }
+
 async function main() {
 	if (!process.env.WIKI_URL) {
 		throw new Error("WIKI_URL is not set");
 	}
 
-	const enemies = await loadCsv();
+	const data = await loadCsv();
 
-	const queries = enemies.map((enemy) => {
+	const enemyQueries = data.enemyData.map((enemy) => {
 		return prisma.enemy.upsert({
 			where: { name: enemy.name },
 			update: {
@@ -59,7 +82,32 @@ async function main() {
 		});
 	});
 
-	await prisma.$transaction(queries);
+	const towerQueries = data.towerData.map((tower) => {
+		let name = tower.name || tower.Name;
+
+		return prisma.tower.upsert({
+			where: { name: name },
+			update: {
+				name: name,
+				price: parseInt(tower.price),
+				range: parseInt(tower.range),
+				damage: parseInt(tower.damage),
+				cooldown: parseInt(tower.cooldown) || 0
+			},
+			create: {
+				name: name,
+				modelUrl: "",
+				description: "",
+				price: parseInt(tower.price),
+				range: parseInt(tower.range),
+				damage: parseInt(tower.damage),
+				cooldown: parseInt(tower.cooldown) || 0
+			}
+		});
+	});
+
+	await prisma.$transaction(enemyQueries);
+	await prisma.$transaction(towerQueries);
 }
 
 main()
