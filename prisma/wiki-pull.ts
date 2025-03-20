@@ -82,32 +82,7 @@ async function main() {
 		});
 	});
 
-	const towerQueries = data.towerData.map((tower) => {
-		let name = tower.name || tower.Name;
-
-		return prisma.tower.upsert({
-			where: { name: name },
-			update: {
-				name: name,
-				price: parseInt(tower.price),
-				range: parseInt(tower.range),
-				damage: parseInt(tower.damage),
-				cooldown: parseInt(tower.cooldown) || 0
-			},
-			create: {
-				name: name,
-				modelUrl: "",
-				description: "",
-				price: parseInt(tower.price),
-				range: parseInt(tower.range),
-				damage: parseInt(tower.damage),
-				cooldown: parseInt(tower.cooldown) || 0
-			}
-		});
-	});
-
 	await prisma.$transaction(enemyQueries);
-	await prisma.$transaction(towerQueries);
 }
 
 main()
