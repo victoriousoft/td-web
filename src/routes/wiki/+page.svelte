@@ -1,5 +1,9 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
+	import * as AlertDialog from "$lib/components/ui/alert-dialog";
+	import Link from "$lib/components/link.svelte";
+	import Button from "$lib/components/ui/button/button.svelte";
+	import GlbView from "$lib/components/glb-view.svelte";
 
 	let { data } = $props();
 
@@ -8,7 +12,9 @@
 	}
 </script>
 
-<h1 class="m-5 text-center text-4xl font-bold">Enemy wiki</h1>
+<h1 class="m-5 text-center text-4xl font-bold">Wiki</h1>
+
+<h2 class="m-5 text-2xl font-semibold">Enemies</h2>
 
 <div class="m-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
 	{#each data.enemies as enemy}
