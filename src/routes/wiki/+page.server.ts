@@ -7,6 +7,9 @@ export const load: ServerLoad = async ({ locals }) => {
 		orderBy: { unlockLevel: "asc" }
 	});
 
+	const towers = await prisma.tower.findMany();
+	const towersMap = new Map(towers.map((tower) => [tower.name.toLowerCase(), tower]));
+
 	let highestUnlockedLevel = 0;
 
 	if (locals.user) {
@@ -22,5 +25,5 @@ export const load: ServerLoad = async ({ locals }) => {
 		}, 0);
 	}
 
-	return { enemies, highestUnlockedLevel };
+	return { enemies, towers, towersMap, highestUnlockedLevel };
 };
