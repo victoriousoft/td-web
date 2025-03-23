@@ -31,6 +31,6 @@
 
 {#if currentTowerKey !== null}
 	<div class="h-[70vh] w-full">
-		<GlbView modelUrl="http://minio.kristn.co.uk:9000/ratartd-models/{data.towers[currentTowerKey]}" />
+		<GlbView modelUrl="https://s3.minio.kristn.co.uk/ratartd-models/{data.towers[currentTowerKey]}" />
 	</div>
 {/if}
