@@ -6,7 +6,7 @@
 	import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
 	import { writable } from "svelte/store";
 	import { Separator } from "$lib/components/ui/separator";
-	import { SaveGenerator } from "$lib/save-gen";
+	import { SaveGenerator, type SaveData } from "$lib/save-gen";
 	import { showError } from "$lib/components/error.svelte";
 	import { tick } from "svelte";
 	import { showAlert } from "$lib/components/alert.svelte";
@@ -118,7 +118,7 @@
 	async function loadSave(id: number) {
 		if (!iframe?.contentWindow) return;
 
-		let saveContent: Object | null = null;
+		let saveContent: SaveData | null = null;
 		if (id !== -1) {
 			saveContent = SaveGenerator.parseFromJson(data.savesContentMap.get(id) as Object);
 			if (!saveContent) {
@@ -150,8 +150,8 @@
 				return;
 			}
 
-			saveContent = save.content;
-			selectedSlotId = save.id;
+			saveContent = save.content as SaveData;
+			selectedSlotId = save.id as number;
 			localStorage.setItem("lastSelectedSlotId", save.id.toString());
 		}
 
@@ -174,7 +174,7 @@
 				data: {
 					action: "loadSave",
 					args: {
-						json: JSON.stringify(saveContent)
+						levels: JSON.stringify(saveContent.levels)
 					}
 				}
 			},

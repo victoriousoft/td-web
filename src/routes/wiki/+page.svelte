@@ -1,9 +1,5 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
-	import * as AlertDialog from "$lib/components/ui/alert-dialog";
-	import Link from "$lib/components/link.svelte";
-	import Button from "$lib/components/ui/button/button.svelte";
-	import GlbView from "$lib/components/glb-view.svelte";
 
 	let { data } = $props();
 

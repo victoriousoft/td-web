@@ -8,7 +8,7 @@ const SaveDataSchema = z.object({
 	levels: z.array(z.number())
 });
 
-interface SaveData {
+export interface SaveData {
 	foo: string;
 	bar: number;
 	baz: boolean;
