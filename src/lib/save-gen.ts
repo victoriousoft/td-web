@@ -54,4 +54,16 @@ export class SaveGenerator {
 	static getHighestUnlockedLevel(save: SaveData) {
 		return save.levels.length - 1;
 	}
+
+	static passLevel(save: SaveData, level: number, stars: number) {
+		if (level < 0 || stars < 0 || stars > 3) return save;
+
+		if (save.levels.length <= level) {
+			save.levels.push(stars);
+		} else {
+			save.levels[level] = stars;
+		}
+
+		return save;
+	}
 }

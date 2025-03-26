@@ -53,6 +53,19 @@
 				break;
 		}
 	}
+
+	function sendMessageToUnity(data: UnityMessage) {
+		if (!iframe?.contentWindow) return;
+
+		iframe.contentWindow.postMessage(
+			{
+				type: "jsToUnity",
+				data: data
+			},
+			"*"
+		);
+	}
+
 	async function oneBeforeUnload(event: BeforeUnloadEvent) {
 		if (!isUnityReady) return;
 
@@ -67,27 +80,15 @@
 				isUnityReady = true;
 				break;
 
-			case "save":
+			case "levelPass":
 				if (!selectedSlotId) {
 					showError("Failed to save", "No save slot selected");
 					console.error("Failed to save, no save slot selected", data);
 					return;
 				}
 
-				const saveContent = data.args.saveContent;
-				if (!saveContent) {
-					showError("Failed to save", "No save data was sent by Unity");
-					console.error("Failed to save, no save data was sent by Unity", data);
-					return;
-				}
-
-				const parsedSaveContent = SaveGenerator.parseFromJson(saveContent);
-				if (!parsedSaveContent) {
-					showError("Failed to save", "Failed to save, save is corrupted. The save has been stored to local storage as a backup");
-					console.error("Failed to save, save is corrupted.", saveContent);
-					window.localStorage.setItem("backupSave", JSON.stringify(saveContent));
-					return;
-				}
+				const level = data.args.level;
+				const stars = data.args.stars;
 
 				const res = await fetch("api/save", {
 					method: "PATCH",
@@ -96,7 +97,8 @@
 					},
 					body: JSON.stringify({
 						id: selectedSlotId,
-						newContent: parsedSaveContent
+						level: level,
+						stars: stars
 					})
 				});
 
@@ -168,18 +170,12 @@
 			});
 		}
 
-		iframe.contentWindow?.postMessage(
-			{
-				type: "jsToUnity",
-				data: {
-					action: "loadSave",
-					args: {
-						levels: JSON.stringify(saveContent.levels)
-					}
-				}
-			},
-			"*"
-		);
+		sendMessageToUnity({
+			action: "loadSave",
+			args: {
+				levels: JSON.stringify(saveContent.levels)
+			}
+		});
 
 		document.body.style.cursor = "default";
 

@@ -32,13 +32,10 @@ export const POST: RequestHandler = async ({ locals }) => {
 export const PATCH: RequestHandler = async ({ locals, request }) => {
 	if (!locals.user) error(401, "Unauthorized");
 
-	const { id: saveId, newContent } = await request.json();
+	const { id: saveId, level, stars } = await request.json();
 
-	if (!saveId || !newContent) error(400, "Missing save ID or content");
-
-	const parsedSave = SaveGenerator.parseFromJson(newContent);
-
-	if (Number.isNaN(parseInt(String(saveId))) || !parsedSave) error(400, "Invalid save ID or content");
+	console.log("PATCH", saveId, level, stars);
+	if (saveId === undefined || level === undefined || stars === undefined) error(400, "Invalid request body");
 
 	const save = await prisma.save.findFirst({
 		where: {
@@ -49,13 +46,18 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 
 	if (!save) error(404, "Save not found");
 
+	const saveContent = SaveGenerator.parseFromJson(save.content as string);
+	if (!saveContent) error(400, "Invalid save content");
+
+	const updatedSave = SaveGenerator.passLevel(saveContent, level, stars);
+
 	await prisma.save.update({
 		where: {
 			id: parseInt(String(saveId)),
 			userEmail: locals.user.email
 		},
 		data: {
-			content: parsedSave as any
+			content: updatedSave as any
 		}
 	});
 
