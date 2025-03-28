@@ -28,6 +28,7 @@
 		<Link href="/game/saves">Save slots</Link>
 		<Link href="/wiki">Enemy wiki</Link>
 		<Link href="/towers">Towers</Link>
+		<Link href="/game/tutorial">Tutorial</Link>
 
 		{#if page.data.user?.isAdmin}
 			<Link href="/admin">Admin</Link>
@@ -49,6 +50,8 @@
 					<Link href="/game/saves">Save slots</Link>
 					<Link href="/wiki">Enemy wiki</Link>
 					<Link href="/towers">Towers</Link>
+					<Link href="/game/tutorial">Tutorial</Link>
+
 					{#if page.data.user?.isAdmin}
 						<Link href="/admin">Admin</Link>
 					{/if}
