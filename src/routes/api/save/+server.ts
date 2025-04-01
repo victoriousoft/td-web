@@ -34,7 +34,6 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
 
 	const { id: saveId, level, stars } = await request.json();
 
-	console.log("PATCH", saveId, level, stars);
 	if (saveId === undefined || level === undefined || stars === undefined) error(400, "Invalid request body");
 
 	const save = await prisma.save.findFirst({

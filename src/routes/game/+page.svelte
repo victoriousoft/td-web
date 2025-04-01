@@ -108,7 +108,6 @@
 					return;
 				}
 
-				showAlert("Save update successful", "The save was updated successfully");
 				break;
 
 			default:
