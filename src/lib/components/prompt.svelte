@@ -31,7 +31,7 @@
 </script>
 
 <AlertDialog.Root open={isOpen}>
-	<AlertDialog.Content class="z-[500]">
+	<AlertDialog.Content escapeKeydownBehavior="ignore">
 		<AlertDialog.Header>
 			<AlertDialog.Title class="text-center text-2xl">{title}</AlertDialog.Title>
 			<AlertDialog.Description class="text-center">
