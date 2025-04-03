@@ -110,6 +110,17 @@
 
 				break;
 
+			case "setVolume":
+				const volume = data.args.volume;
+				if (volume < 0 || volume > 100) {
+					showError("Invalid volume", "Volume must be between 0 and 1");
+					console.error("Invalid volume", volume);
+					return;
+				}
+
+				localStorage.setItem("volume", volume.toString());
+				break;
+
 			default:
 				console.error("Unknown action from Unity", data);
 				break;
@@ -173,6 +184,12 @@
 			action: "loadSave",
 			args: {
 				levels: JSON.stringify(saveContent.levels)
+			}
+		});
+		sendMessageToUnity({
+			action: "setVolume",
+			args: {
+				volume: parseInt(localStorage.getItem("volume") || "50")
 			}
 		});
 
