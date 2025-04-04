@@ -196,6 +196,9 @@
 		document.body.style.cursor = "default";
 
 		isMenuOpen = false;
+
+		iframe.requestFullscreen();
+		await tick();
 	}
 
 	function toggleFullscreen() {
