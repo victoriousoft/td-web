@@ -17,8 +17,8 @@
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content>
 			<DropdownMenu.Group>
-				{#each Object.keys(data.towers) as tower}
-					<DropdownMenu.Item onclick={() => (currentTowerKey = tower)}>{tower}</DropdownMenu.Item>
+				{#each data.sortedKeys as towerName}
+					<DropdownMenu.Item onclick={() => (currentTowerKey = towerName)}>{towerName}</DropdownMenu.Item>
 				{/each}
 			</DropdownMenu.Group>
 		</DropdownMenu.Content>

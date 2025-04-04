@@ -15,11 +15,22 @@ export const load: PageServerLoad = async () => {
 			.replace(/[_-]/g, " ")
 			.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
 
-		readableName = readableName.replace(/Archers (\d+)/i, (match, level) => `Archers ${parseInt(level) + 1}`);
+		readableName = readableName.replace(/(\w+) (\d+)/i, (match, towerName, level) => `${towerName} ${parseInt(level) + 1}`);
 
 		acc[readableName] = key;
 		return acc;
 	}, {});
 
-	return { towers: towersMap };
+	const sortedKeys = Object.keys(towersMap).sort((a, b) => {
+		const aHasNumber = /\d/.test(a);
+		const bHasNumber = /\d/.test(b);
+
+		if ((aHasNumber && bHasNumber) || (!aHasNumber && !bHasNumber)) {
+			return a.localeCompare(b);
+		}
+
+		return aHasNumber ? -1 : 1;
+	});
+
+	return { towers: towersMap, sortedKeys };
 };
