@@ -2,16 +2,10 @@ import datetimeDifference from "datetime-difference";
 import { z } from "zod";
 
 const SaveDataSchema = z.object({
-	foo: z.string(),
-	bar: z.number(),
-	baz: z.boolean(),
 	levels: z.array(z.number())
 });
 
 export interface SaveData {
-	foo: string;
-	bar: number;
-	baz: boolean;
 	// Array of stars each level was completed with, undefined if not completed
 	levels: number[];
 }
@@ -19,9 +13,6 @@ export interface SaveData {
 export class SaveGenerator {
 	static generateEmptySave(): SaveData {
 		return {
-			foo: "Hello World",
-			bar: 5,
-			baz: false,
 			levels: []
 		};
 	}
