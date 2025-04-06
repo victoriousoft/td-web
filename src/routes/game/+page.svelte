@@ -217,7 +217,7 @@
 		<AlertDialog.Header>
 			<AlertDialog.Title class="text-center text-xl">Select a save</AlertDialog.Title>
 			<AlertDialog.Description class="text-l">
-				Chose a save to load. If you don't have any saves, you can create a new one.
+				Choose a save to load. If you don't have any saves, you can create a new one.
 				<br />
 				You can manage your slots on the <Link href="/game/saves">🔗 saves page</Link>.
 			</AlertDialog.Description>
