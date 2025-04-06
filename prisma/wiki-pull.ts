@@ -59,6 +59,16 @@ async function main() {
 
 	const data = await loadCsv();
 
+	const csvEnemyNames = data.enemyData.map((enemy) => enemy.name);
+
+	await prisma.enemy.deleteMany({
+		where: {
+			name: {
+				notIn: csvEnemyNames
+			}
+		}
+	});
+
 	const enemyQueries = data.enemyData.map((enemy) => {
 		return prisma.enemy.upsert({
 			where: { name: enemy.name },
