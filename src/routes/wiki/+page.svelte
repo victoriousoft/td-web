@@ -8,6 +8,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Ratart TD | Wiki</title>
+</svelte:head>
+
 <h1 class="m-5 text-center text-4xl font-bold">Wiki</h1>
 
 <h2 class="m-5 text-2xl font-semibold">Enemies</h2>

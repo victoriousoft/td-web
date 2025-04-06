@@ -8,6 +8,10 @@
 	let currentTowerKey: null | string = $state(null);
 </script>
 
+<svelte:head>
+	<title>Ratart TD | Towers</title>
+</svelte:head>
+
 <div class="flex flex-col items-center justify-between">
 	<h1 class="m-5 text-center text-4xl font-bold">Tower preview</h1>
 

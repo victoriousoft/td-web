@@ -4,8 +4,11 @@
 	let { data } = $props();
 </script>
 
-<h1 class="m-5 text-center font-seagram text-6xl">Tower Defense</h1>
-<p class="text-center text-gray-500">Coming soon...</p>
+<svelte:head>
+	<title>Ratart TD</title>
+</svelte:head>
+
+<img src="logo.png" alt="Logo" class="lg:w-1/8 mx-auto mb-5 mt-10 w-1/2 sm:w-1/4 md:w-1/6" />
 
 <h2 class="m-5 mt-10 text-center text-2xl font-bold">Latest updates</h2>
 <div class="flex flex-wrap justify-center">

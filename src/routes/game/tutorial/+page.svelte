@@ -1,3 +1,7 @@
+<svelte:head>
+	<title>Ratart TD | Tutorial</title>
+</svelte:head>
+
 <h1 class="m-5 text-center text-4xl font-bold">Tutorial</h1>
 
 <div class="m-auto mx-5 max-w-4xl md:mx-auto md:w-3/4">
@@ -23,30 +27,39 @@
 				<li>Bomber</li>
 			</ol>
 
-			(tower image)
-
-			<p>
-				Towers are all unique and have their own strengths and weaknesses. Some towers deal physical damage and some magical. Each tower can be
-				upgraded up to level 3. After that you can chose from 2 evolutions which are specialized variants with abilities that are charged
-				periodically. Each new tower and any upgrade costs gold, so you need to plan your strategy carefully.
-			</p>
+			<div class="flex items-start gap-5">
+				<p>
+					Towers are all unique and have their own strengths and weaknesses. Some towers deal physical damage and some magical. Each tower can be
+					upgraded up to level 3. After that you can chose from 2 evolutions which are specialized variants with abilities that are charged
+					periodically. Each new tower and any upgrade costs gold, so you need to plan your strategy carefully.
+				</p>
+				<img src="/tutorial/tower.png" alt="Tower" class="w-1/2" />
+			</div>
 
 			<div class="my-5"></div>
 
-			<p>
-				In each level, there are designated spots where you can build your towers, each tower can be built anywhere. If you mess up, don't worry, you
-				can sell your tower for a partial refund at any point during the game.
-			</p>
+			<div class="flex items-start gap-5">
+				<p>
+					In each level, there are designated spots where you can build your towers, each tower can be built anywhere. If you mess up, don't worry,
+					you can sell your tower for a partial refund at any point during the game.
+				</p>
+				<img src="/tutorial/tholder.png" alt="Build" class="w-1/2" />
+			</div>
 		</div>
 	</section>
 
 	<section class="items-left flex flex-col">
 		<h2 class="my-4 text-left text-2xl">Enemies</h2>
-		<p class="text-lg">
-			There are various types of enemies, some walk and some run, some of them also fly. Enemy may be imune to a specific type of damage, so you need
-			to plan your strategy accordingly. Upon killing an enemy, you receive gold as a reward which you can use to build more towers or upgrade
-			existing ones. (enemy image)
-		</p>
+		<div class="flex items-start gap-5">
+			<p class="text-lg">
+				There are various types of enemies, some walk and some run, some of them also fly. Enemy may be imune to a specific type of damage, so you
+				need to plan your strategy accordingly. Upon killing an enemy, you receive gold as a reward which you can use to build more towers or upgrade
+				existing ones.
+				<br />
+				If you click on an enemy, you can view their information.
+			</p>
+			<img src="/tutorial/enemy.png" alt="Enemy" class="w-1/2" />
+		</div>
 		<div class="my-5"></div>
 		<p>
 			Enemies spawn in waves, each wave is stronger than the previous one.The first wave has to be triggered manually to give you time to prepare your

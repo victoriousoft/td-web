@@ -212,6 +212,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Ratart TD | Game</title>
+</svelte:head>
+
 <AlertDialog.Root open={isMenuOpen}>
 	<AlertDialog.Content escapeKeydownBehavior="ignore">
 		<AlertDialog.Header>
@@ -220,6 +224,8 @@
 				Choose a save to load. If you don't have any saves, you can create a new one.
 				<br />
 				You can manage your slots on the <Link href="/game/saves">🔗 saves page</Link>.
+				<br />
+				If it's your first time playing, consider reading the <Link href="/game/tutorial">🔗 tutorial</Link>.
 			</AlertDialog.Description>
 		</AlertDialog.Header>
 
