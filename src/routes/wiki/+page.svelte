@@ -35,7 +35,7 @@
 							<p><span class="font-semibold">Physical Resistance:</span> {getRezistancePercentage(enemy.physicalResistance)}%</p>
 							<p><span class="font-semibold">Magical Resistance:</span> {getRezistancePercentage(enemy.magicalResistance)}%</p>
 							<p><span class="font-semibold">Player Lives:</span> {"❤️".repeat(enemy.playerLives)}</p>
-							<p><span class="font-semibold">Unlocked at level</span> {enemy.unlockLevel}</p>
+							<p><span class="font-semibold">Unlocked at level</span> {enemy.unlockLevel + 1}</p>
 						</div>
 					</div>
 				</Card.Content>
