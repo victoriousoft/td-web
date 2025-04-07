@@ -20,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>Ratart TD | Saves</title>
+	<title>Ratar TD | Saves</title>
 </svelte:head>
 
 <h1 class="m-5 text-center text-4xl font-bold">Game save slots</h1>

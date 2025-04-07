@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Ratart TD | Tutorial</title>
+	<title>Ratar TD | Tutorial</title>
 </svelte:head>
 
 <h1 class="m-5 text-center text-4xl font-bold">Tutorial</h1>

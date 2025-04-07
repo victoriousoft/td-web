@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Ratart TD</title>
+	<title>Ratar TD</title>
 </svelte:head>
 
 <img src="logo.png" alt="Logo" class="lg:w-1/8 mx-auto mb-5 mt-10 w-1/2 sm:w-1/4 md:w-1/6" />

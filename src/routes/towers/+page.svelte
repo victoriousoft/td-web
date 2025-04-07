@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-	<title>Ratart TD | Towers</title>
+	<title>Ratar TD | Towers</title>
 </svelte:head>
 
 <div class="flex flex-col items-center justify-between">

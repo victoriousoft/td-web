@@ -213,7 +213,7 @@
 </script>
 
 <svelte:head>
-	<title>Ratart TD | Game</title>
+	<title>Ratar TD | Game</title>
 </svelte:head>
 
 <AlertDialog.Root open={isMenuOpen}>
