@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const WIKI_URL = `${process.env.PUBLIC_UNITY_INSTANCE_URL}/balancer-data.csv`;
+const WIKI_URL = `${process.env.PUBLIC_UNITY_INSTANCE_URL}/public-static-void-main-string-args/balancer-data.csv`;
 
 async function loadCsv(): Promise<{
 	enemyData: Record<string, string>[];
