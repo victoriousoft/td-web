@@ -2,11 +2,13 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const WIKI_URL = `${process.env.PUBLIC_UNITY_INSTANCE_URL}/balancer-data.csv`;
+
 async function loadCsv(): Promise<{
 	enemyData: Record<string, string>[];
 	towerData: Record<string, string>[];
 }> {
-	const response = await fetch(process.env.WIKI_URL as string);
+	const response = await fetch(WIKI_URL);
 	const file = await response.text();
 
 	const lines = file.split("\n");
@@ -53,8 +55,8 @@ async function loadCsv(): Promise<{
 }
 
 async function main() {
-	if (!process.env.WIKI_URL) {
-		throw new Error("WIKI_URL is not set");
+	if (!process.env.PUBLIC_UNITY_INSTANCE_URL) {
+		throw new Error("PUBLIC_UNITY_INSTANCE_URL is not set");
 	}
 
 	const data = await loadCsv();
