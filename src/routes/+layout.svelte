@@ -21,6 +21,12 @@
 </script>
 
 <svelte:head>
+	<!-- Privacy-friendly analytics by Plausible -->
+	<script async src="https://plausible.kristn.co.uk/js/pa-ZH0C8sNsCUpVUtLDmkz6X.js"></script>
+	<script>
+		window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+		plausible.init()
+	</script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" />
