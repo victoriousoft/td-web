@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from "$lib/components/ui/button/button.svelte";
 	import * as AlertDialog from "$lib/components/ui/alert-dialog";
-	import type { Enemy } from "@prisma/client";
+	import type { Enemy } from "$lib/generated/prisma/client";
 	import { superForm } from "sveltekit-superforms";
 	import { zod4Client as zodClient } from "sveltekit-superforms/adapters";
 	import { schema } from "./schema.js";

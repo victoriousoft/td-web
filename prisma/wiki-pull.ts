@@ -1,6 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import "dotenv/config";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient } from "../src/lib/generated/prisma/client";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: new PrismaMariaDb(process.env.DATABASE_URL as string) });
 
 const WIKI_URL = `${process.env.PUBLIC_UNITY_INSTANCE_URL}/public-static-void-main-string-args/balancer-data.csv`;
 

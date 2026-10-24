@@ -1,6 +1,8 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import "dotenv/config";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { Prisma, PrismaClient } from "../src/lib/generated/prisma/client";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ adapter: new PrismaMariaDb(process.env.DATABASE_URL as string) });
 
 async function main() {
 	await prisma.admin.upsert({
