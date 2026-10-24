@@ -6,7 +6,7 @@
 	import Textarea from "$lib/components/ui/textarea/textarea.svelte";
 	import { createPostSchema, type CreatePostSchema } from "./schema";
 	import { superForm } from "sveltekit-superforms";
-	import { zodClient } from "sveltekit-superforms/adapters";
+	import { zod4Client as zodClient } from "sveltekit-superforms/adapters";
 
 	const form = superForm(page.data.form, {
 		validators: zodClient(createPostSchema)

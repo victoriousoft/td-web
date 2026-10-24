@@ -3,7 +3,7 @@
 	import * as AlertDialog from "$lib/components/ui/alert-dialog";
 	import type { Enemy } from "@prisma/client";
 	import { superForm } from "sveltekit-superforms";
-	import { zodClient } from "sveltekit-superforms/adapters";
+	import { zod4Client as zodClient } from "sveltekit-superforms/adapters";
 	import { schema } from "./schema.js";
 	import * as Form from "$lib/components/ui/form";
 	import { Input } from "$lib/components/ui/input";
