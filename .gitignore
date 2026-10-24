@@ -22,3 +22,6 @@ vite.config.ts.timestamp-*
 
 # DEV ONLY
 static/game/*
+
+# Generated Prisma client
+/src/lib/generated

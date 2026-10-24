@@ -23,9 +23,10 @@ Nainstálování NPM balíčků:
 $ npm i
 ```
 
-Aplikování databázového schématu:
+Aplikování databázového schématu a vygenerování Prisma klienta:
 ```bash
 $ npx prisma migrate deploy
+$ npx prisma generate
 ```
 
 ## Spuštění
