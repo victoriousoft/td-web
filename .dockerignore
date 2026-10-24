@@ -1,0 +1,10 @@
+node_modules
+.svelte-kit
+build
+.git
+.github
+.env
+.env.*
+!.env.example
+src/lib/generated
+static/game

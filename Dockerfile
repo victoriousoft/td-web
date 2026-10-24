@@ -15,6 +15,7 @@ WORKDIR /app
 RUN apk add --no-cache openssl openssl-dev
 COPY --from=builder /app/build build/
 COPY --from=builder /app/node_modules node_modules/
+COPY --from=builder /app/src/lib/generated src/lib/generated
 COPY --from=builder /app/prisma/ prisma/
 COPY --from=builder /app/prisma.config.ts .
 COPY package.json .
